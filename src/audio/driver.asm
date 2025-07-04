@@ -44,10 +44,9 @@ _AdvanceSound:
 
 	; if both scratch bytes are 0...
 	LDA zCurrentAudioScratchData + 1
-	ORA zCurrentAudioScratchData
-	BNE @NextChannel
+	BPL @NextChannel
 
-	JSR ResetTempChannelFlags ; just in case
+	JSR ResetTempChannelInfo ; just in case
 	; ...and we've reached the end of channel RAM
 	LDA zCurrentChannelPointer + 1
 	CMP #>iChannel10 ; left=low, right=high
@@ -834,12 +833,10 @@ ParseAudioData_SetDPCM:
 	STA zDPCMAnalogs + 3
 	BEQ ParseAudioData_Clear
 ParseAudioData_PSG:
-	LDA ChannelSetBufferOffsets, X
-	TAX
+	LDY ChannelSetBufferOffsets, X
 	LDA #$80
-	ORA iChannel06 + CHANNEL_RAW_PITCH + 1, X
-	STA iChannel06 + CHANNEL_RAW_PITCH + 1, X
-	JSR LoadChannelOffset
+	ORA iChannel06 + CHANNEL_RAW_PITCH + 1, Y
+	STA iChannel06 + CHANNEL_RAW_PITCH + 1, Y
 ParseAudioData_Clear:
 	LDA ChannelMasks, X
 	LDY MaskOffsets, X
@@ -1596,10 +1593,11 @@ InitChannelPointer:
 	STA zCurrentChannelPointer
 	LDA #>(iChannel01 - CHANNEL_STRUCTURE)
 	STA zCurrentChannelPointer + 1
-ResetTempChannelFlags:
+ResetTempChannelInfo:
 	LDA zMusicChannelFlags
+	ORA zSFXChannelFlags
 	STA zCurrentAudioScratchData
-	LDA zSFXChannelFlags
+	LDA #5
 	STA zCurrentAudioScratchData + 1
 	RTS
 
@@ -1612,13 +1610,8 @@ IncChannelPointer:
 	ADC zCurrentChannelPointer + 1
 	STA zCurrentChannelPointer + 1
 ShiftChannelIn:
-	LSR zCurrentAudioScratchData + 1
-	BCS @Set
+	DEC zCurrentAudioScratchData + 1
 	LSR zCurrentAudioScratchData
-	RTS
-@Set:
-	LSR zCurrentAudioScratchData
-	SEC
 	RTS
 
 ChannelAddressZipper:
