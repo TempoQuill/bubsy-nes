@@ -189,7 +189,7 @@ Music_Slide_TRI:
 
 Music_Slide_NSE:
 	db	sound_main_loop_set
-	db	n_multi+1,	n_length+3,	$08
+	db	n_multi+1,	n_length+3,	$09
 	db	sound_ret
 
 Music_Slide_DPCM:

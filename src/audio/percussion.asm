@@ -5,10 +5,10 @@ NoisePercussion:
 	dw Noise_Hihat1
 	dw Noise_Hihat2
 	dw Noise_Hihat3
-	dw Noise_Snare2 ; fair snare (loud)
-	dw Noise_Snare3 ; fair snare (soft)
-	dw Noise_Snare4 ; log/dune slide
-	dw Noise_None
+	dw Noise_Snare2 ; fair snare (kick)
+	dw Noise_Snare3 ; fair snare (loud)
+	dw Noise_Snare4 ; fair snare (soft)
+	dw Noise_Snare5 ; log/dune slide
 	dw Noise_None
 	dw Noise_None
 	dw Noise_None
@@ -71,6 +71,15 @@ Noise_Hihat3:
 	db	sound_ret
 
 Noise_Snare2:
+	db	n_length+2,	$c1,	$29
+	db	n_length+1,	$d5,	$29
+	db	n_length+2,	$d4,	$29
+	db			$d3,	$29
+	db			$d2,	$29
+	db			$d1,	$29
+	db	sound_ret
+
+Noise_Snare3:
 	db	n_length+3,	$c1,	$29
 	db	n_length+1,	$d8,	$29
 	db			$d7,	$29
@@ -82,7 +91,7 @@ Noise_Snare2:
 	db			$d1,	$29
 	db	sound_ret
 
-Noise_Snare3:
+Noise_Snare4:
 	db	n_length+1,	$d7,	$29
 	db			$d6,	$29
 	db			$d5,	$29
@@ -92,6 +101,6 @@ Noise_Snare3:
 	db			$d1,	$29
 	db	sound_ret
 
-Noise_Snare4:
+Noise_Snare5:
 	db	n_length+3,	$c0,	$29
 	db	sound_ret
