@@ -4,6 +4,7 @@ echo Assembling...
 tools\asm6f.exe bubsy.asm -c -m -l %* bin\bubsy.nes > bin\assembler.log
 if %ERRORLEVEL% neq 0 goto buildfail
 move /y bubsy.lst bin > nul
+move /y bubsy.cdl bin > nul
 echo Done.
 echo.
 
