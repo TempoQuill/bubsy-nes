@@ -1,0 +1,6 @@
+.include "src/def/audio.asm"
+.include "src/def/banks.asm"
+.include "src/def/dmc.asm"
+.include "src/def/hardware.asm"
+.include "src/def/music.asm"
+.include "src/def/sfx.asm"
