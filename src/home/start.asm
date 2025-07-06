@@ -7,7 +7,7 @@ Start:
 	ORA #PPUCtrl_NMIEnabled
 	STA zPPUCtrlMirror
 	STA rCTRL
-	LDY #MUSIC_GOAL
+	LDY #MUSIC_FAIR_MAIN
 	JSR PlayMusic
 @LO:
 	LDA zJoyPress

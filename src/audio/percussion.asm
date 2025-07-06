@@ -71,19 +71,8 @@ Noise_Hihat3:
 	db	sound_ret
 
 Noise_Snare2:
-	db	n_length+2,	$c1,	$29
+	db	n_length+2,	$df,	$3e
 	db	n_length+1,	$d5,	$29
-	db	n_length+2,	$d4,	$29
-	db			$d3,	$29
-	db			$d2,	$29
-	db			$d1,	$29
-	db	sound_ret
-
-Noise_Snare3:
-	db	n_length+3,	$c1,	$29
-	db	n_length+1,	$d8,	$29
-	db			$d7,	$29
-	db			$d6,	$29
 	db			$d5,	$29
 	db			$d4,	$29
 	db			$d3,	$29
@@ -91,11 +80,20 @@ Noise_Snare3:
 	db			$d1,	$29
 	db	sound_ret
 
+Noise_Snare3:
+	db	n_length+5,	$c1,	$29
+	db	n_length+1,	$d4,	$29
+	db			$d3,	$29
+	db			$d2,	$29
+	db			$d1,	$29
+	db	sound_ret
+
 Noise_Snare4:
-	db	n_length+1,	$d7,	$29
+	db	n_length+1,	$da,	$29
+	db			$d8,	$29
 	db			$d6,	$29
 	db			$d5,	$29
-	db	n_length+2,	$d4,	$29
+	db			$d4,	$29
 	db			$d3,	$29
 	db			$d2,	$29
 	db			$d1,	$29

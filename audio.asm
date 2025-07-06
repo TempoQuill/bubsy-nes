@@ -28,7 +28,8 @@
 .include "src/audio/music/cave.asm"
 .align $2000
 
-	.dsb $2000 ; fair
+.include "src/audio/music/fairmain.asm"
+.align $2000
 	.dsb $2000 ; desert
 
 .base $a000
