@@ -609,6 +609,9 @@ ApplyNoteEffects:
 
 ; sweep
 	LDA zCurrentChannelArea + CHANNEL_SWEEP
+	BNE @GotSweep
+	LDA #$7f
+@GotSweep:
 	STA zCurrentSweep
 
 ; volume
