@@ -679,20 +679,10 @@ Music_FairMain_TRI:
 	db	sound_loop_break
 	db	sound_main_loop_set
 	db	lnr_ratio+24
+	db	sound_loop+13
 	db	n_multi+6,	n_length+24,	n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db					n_cut
-	db			n_length+12,	n_cut
+	db	sound_loop_break
+	db	n_multi+6,	n_length+12,	n_cut
 	db			n_length+8,	oct_5+E_
 	db			n_length+4,	oct_5+E_
 	db	n_multi+4,	n_length+8,	oct_5+F_
