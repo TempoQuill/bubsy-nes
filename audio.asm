@@ -29,6 +29,7 @@
 .align $2000
 
 .include "src/audio/music/fairmain.asm"
+.include "src/audio/music/fairboss.asm"
 .align $2000
 	.dsb $2000 ; desert
 
