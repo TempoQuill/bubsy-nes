@@ -35,6 +35,7 @@
 
 .include "src/audio/music/train.asm"
 .include "src/audio/music/desertmain.asm"
+.include "src/audio/music/sanddune.asm"
 .align $2000
 
 .include "src/audio/music/wildernessmain.asm"
