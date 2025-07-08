@@ -32,7 +32,7 @@ PulseEffects:
 	dw EffectSaxophone
 	dw EffectOrgan3
 	dw EffectNone ; fiddle
-	dw EffectNone ; piano
+	dw EffectPiano ; piano
 	dw EffectNone ; whistle
 	dw EffectNone ; xylophone
 	dw EffectSFX ; boxing bell
@@ -181,6 +181,11 @@ PulseFIddle:
 	db	$d2
 	db	$d1,$d1
 	db	$d0
+	db	ins_ret
+
+EffectPiano:
+	db	ins_staccato,$e8
+	db	ins_detune,$ff
 	db	ins_ret
 
 PulsePiano:

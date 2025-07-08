@@ -31,9 +31,11 @@
 .include "src/audio/music/fairmain.asm"
 .include "src/audio/music/fairboss.asm"
 .align $2000
-	.dsb $2000 ; desert
+.base $8000
 
-.base $a000
+.include "src/audio/music/train.asm"
+.include "src/audio/music/desertmain.asm"
+.align $2000
+
 .include "src/audio/music/wildernessmain.asm"
-
 .align $2000
