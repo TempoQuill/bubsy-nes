@@ -163,7 +163,7 @@ UpdateChannel:
 	LDA zCurrentVolumeLinear
 	STA rNR10
 	LDA zCurrentSweep ; sweep shall proceed uninterrupted
-	BNE @Ch1_End
+	BMI @Ch1_End
 	; else just modify LSB's of pitch and duty / volume
 	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
 	STA rNR12
@@ -215,7 +215,7 @@ UpdateChannel:
 	LDA zCurrentVolumeLinear
 	STA rNR20
 	LDA zCurrentSweep
-	BNE @Ch2_End
+	BMI @Ch2_End
 	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
 	STA rNR22
 @Ch2_End:
