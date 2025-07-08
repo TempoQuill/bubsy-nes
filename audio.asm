@@ -39,4 +39,5 @@
 .align $2000
 
 .include "src/audio/music/wildernessmain.asm"
+.include "src/audio/music/wildernessboss.asm"
 .align $2000

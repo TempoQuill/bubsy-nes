@@ -16,8 +16,10 @@ MusicPointers:
 	audio_ptr	0,	PRG_Music3,	Music_FairBoss
 	audio_ptr	0,	PRG_Music4,	Music_Train
 	audio_ptr	0,	PRG_Music4,	Music_DesertMain
-	audio_ptr	0,	PRG_Music5,	Music_WildernessMain
+	audio_ptr	0,	PRG_Music5,	Music_DesertBoss
 	audio_ptr	0,	PRG_Music4,	Music_SandDune
+	audio_ptr	0,	PRG_Music5,	Music_WildernessMain
+	audio_ptr	0,	PRG_Music5,	Music_WildernessBoss
 	audio_ptr	0,	PRG_Music5,	Music_WildernessMain
 	audio_ptr	0,	PRG_Music5,	Music_WildernessMain
 	audio_ptr	0,	PRG_Music5,	Music_WildernessMain
