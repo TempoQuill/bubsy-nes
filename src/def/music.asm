@@ -14,7 +14,7 @@ MUSIC_SLIDE:		.dsb 1 ; uses multiple soundfonts on SNES due to 64KB limit
 ; village
 MUSIC_VILLAGE_MAIN:	.dsb 1
 MUSIC_VILLAGE_BOSS:	.dsb 1 ; MD version reuses this on the wilderness boss
-MUSIC_CAVE:		.dsb 1 ; absent on MD version
+MUSIC_CAVE:		.dsb 1 ; absent on MD/Win95 versions, SNES version only
 ; fair
 MUSIC_FAIR_MAIN:	.dsb 1
 MUSIC_FAIR_BOSS:	.dsb 1
