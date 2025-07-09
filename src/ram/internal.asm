@@ -39,8 +39,12 @@ zJoyPatch:	.dsb 2
 zJoyBuffer:	.dsb 4
 
 zNMIDelay:	.dsb 1
-zMusicBank:	.dsb 1
-zLocalSong:	.dsb 1
+
+zMusicBank:		.dsb 1
+zLocalSong:		.dsb 1
+zChapterFramesLeft:	.dsb 1
+zChapterSFXPointer:	.dsb 2
+zChapterSFXOffset:	.dsb 1
 .ende
 
 iStack = $100
