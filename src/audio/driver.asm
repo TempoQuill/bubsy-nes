@@ -286,6 +286,9 @@ UpdateChannel:
 	ORA #$08 ; turn on
 	STA rNR33
 @Ch3_Rest:
+	; LSB's of pitch
+	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
+	STA rNR32
 	; linear output length
 	LDA zCurrentVolumeLinear
 	STA rNR30
@@ -376,13 +379,25 @@ UpdateChannel:
 ApplyTriangle:
 	LDA zCurrentChannelArea + CHANNEL_STACCATO
 	BNE @Staccato
+	LDA zCurrentChannelArea + CHANNEL_OCTAVE
+	BMI @Cut
+	LDA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
+	STA zCurrentVolumeLinear
+	JSR GetRawPitch
+	JMP ApplyVibrato
+
+@Cut:
+	LDA #0
+	STA zCurrentVolumeLinear
 	RTS
 
 @Staccato:
 	LDA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
 	BEQ @Mute
 	DEC zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
-	LDA #$81
+	JSR GetRawPitch
+	JSR ApplyVibrato
+	LDA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 @Mute:
 	STA zCurrentVolumeLinear
 	RTS
@@ -419,11 +434,11 @@ InitStaccato:
 	CPY #$20
 	BCS @Staccato
 
-	STY zCurrentVolumeLinear
+	STY zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	ASL A
-	ROL zCurrentVolumeLinear
+	ROL zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	ASL A
-	ROL zCurrentVolumeLinear
+	ROL zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	RTS
 
 @Cut:
@@ -434,7 +449,7 @@ InitStaccato:
 @Staccato:
 	TYA
 	LDY #$81
-	STY zCurrentVolumeLinear
+	STY zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	STA zCurrentChannelArea + CHANNEL_STACCATO
 	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
 	RTS
@@ -544,42 +559,7 @@ ApplyNoteEffects:
 
 ; vibrato
 	; pre-vibrato
-	LDA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY_COUNTER
-	BEQ @VibratoProper
-
-	DEC zCurrentChannelArea + CHANNEL_VIBRATO_DELAY_COUNTER
-	JMP @Staccato
-
-@VibratoProper:
-	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
-	LDY zCurrentChannelArea + CHANNEL_VIBRATO_CREST
-	CLC
-	BMI @VibratoTroph
-
-	SBC zCurrentChannelArea + CHANNEL_VIBRATO_CREST
-	BCS @VibratoStep
-
-	LDA #$00
-	BEQ @VibratoStep ; always branches
-
-@VibratoTroph:
-	ADC zCurrentChannelArea + CHANNEL_VIBRATO_TROPH
-	BCC @VibratoStep
-
-	LDA #$ff
-
-@VibratoStep:
-	STA zCurrentChannelArea + CHANNEL_RAW_PITCH ; store the final (lo)raw pitch
-	DEC zCurrentChannelArea + CHANNEL_VIBRATO_STEP_COUNTER
-	BMI @VibratoNext
-	BNE @Staccato
-
-@VibratoNext:
-	LDA zCurrentChannelArea + CHANNEL_VIBRATO_STEP
-	STA zCurrentChannelArea + CHANNEL_VIBRATO_STEP_COUNTER
-	LDA #$80
-	EOR zCurrentChannelArea + CHANNEL_VIBRATO_CREST
-	STA zCurrentChannelArea + CHANNEL_VIBRATO_CREST
+	JSR ApplyVibrato
 
 @Staccato:
 	LDA zCurrentChannelArea + CHANNEL_STACCATO
@@ -1650,5 +1630,46 @@ ApplyChannel:
 	dw ApplyNoise - 1
 	dw @Done - 1
 
+@Done:
+	RTS
+
+ApplyVibrato:
+	; pre-vibrato
+	LDA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY_COUNTER
+	BEQ @VibratoProper
+
+	DEC zCurrentChannelArea + CHANNEL_VIBRATO_DELAY_COUNTER
+	RTS
+
+@VibratoProper:
+	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
+	LDY zCurrentChannelArea + CHANNEL_VIBRATO_CREST
+	CLC
+	BMI @VibratoTroph
+
+	SBC zCurrentChannelArea + CHANNEL_VIBRATO_CREST
+	BCS @VibratoStep
+
+	LDA #$00
+	BEQ @VibratoStep ; always branches
+
+@VibratoTroph:
+	ADC zCurrentChannelArea + CHANNEL_VIBRATO_TROPH
+	BCC @VibratoStep
+
+	LDA #$ff
+
+@VibratoStep:
+	STA zCurrentChannelArea + CHANNEL_RAW_PITCH ; store the final (lo)raw pitch
+	DEC zCurrentChannelArea + CHANNEL_VIBRATO_STEP_COUNTER
+	BMI @VibratoNext
+	BNE @Done
+
+@VibratoNext:
+	LDA zCurrentChannelArea + CHANNEL_VIBRATO_STEP
+	STA zCurrentChannelArea + CHANNEL_VIBRATO_STEP_COUNTER
+	LDA #$80
+	EOR zCurrentChannelArea + CHANNEL_VIBRATO_CREST
+	STA zCurrentChannelArea + CHANNEL_VIBRATO_CREST
 @Done:
 	RTS

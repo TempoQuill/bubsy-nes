@@ -60,10 +60,10 @@ sound_ret = $00
 ins_ret = $00
 ins_chorus = $01	; sharpens raw pitch by 1
 ins_previbrato = $02	; frames before vibrato begins playing
-ins_vibrato = $04	; vibrato settings, both params 0-15
+ins_vibrato = $04	; vibrato settings, both params 0-15 ($00 = flutter)
 ins_staccato = $08	; pulses may use this like the triangle channel uses $c0-$df
 ins_detune = $10	; adds value to decoded pitch, $ff80-$007f (as 1 byte)
-ins_transposition = $20	; adds value to encoded pitch
+ins_transposition = $20	; adds value to encoded pitch (unused, but should work fine)
 ins_sweep = $40		; in-music pitch sweep
 ins_duty_loop = $80	; 4 duty cycles in sequence (1 crumb per duty parameter)
 
@@ -106,6 +106,7 @@ CHANNEL_DRUM_OFFSET:		.dsb 1
 .ende
 
 CHANNEL_LINEAR_RATIO = CHANNEL_INSTRUMENT
+CHANNEL_RAW_LINEAR_OUTPUT = CHANNEL_SWEEP
 
 .enum CHANNEL_VIBRATO_DELAY
 CHANNEL_DRUM_NOTE_LENGTH:	.dsb 1
