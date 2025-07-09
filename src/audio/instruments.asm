@@ -19,7 +19,7 @@ PulseInstruments:
 	dw PulseSkid2
 	dw PulseSkid3
 	dw PulseSkid4
-	dw PulseSkid1
+	dw PulseMelting
 
 PulseEffects:
 	dw EffectBanjo
@@ -288,5 +288,8 @@ PulseSkid4:
 
 EffectMelting:
 	db	ins_sweep,$8a
-	db	ins_duty_loop,$aa
+	db	ins_ret
+
+PulseMelting:
+	db	$97,$97,$97,$97
 	db	ins_ret

@@ -6,14 +6,14 @@ SFX_Splat:
 	;	length		volume	duty/pitch/sweep
 SFX_Splat_PUL1:
 	db	sound_loop+12
-	db	n_length+1,	$df,	$0d,$00,$7f
+	db	n_length+1,	$da,	$0d,$00,$7f
 	db				s_rest
 	db	sound_loop_break
 	db	sound_ret
 
 	;	length		volume	lfsr/pitch
 SFX_Splat_NSE:
-	db	n_length+1,	$df,	$2b
+	db	n_length+1,	$da,	$2b
 	db				$2c
 	db				$2d
 	db				$2e
@@ -53,30 +53,30 @@ SFX_AhrrgHeightShock:
 	dw SFX_AhrrgHeightShock_PUL1
 
 SFX_AhrrgHeightShock_PUL1:
-	db	n_length+1,	$d4,	$1a,$1a,$8a
-	db			$d8,	$29,$7c,$8c
-	db			$dc,	$19,$93,$8c
-	db			$df,	$29,$ab,$8c
-	db			$dc,	$19,$c4,$8c
-	db			$d8,	$29,$df,$8c
-	db			$d4,	$19,$fb,$8c
-	db			$d4,	$29,$1c,$8c
-	db			$d8,	$19,$1c,$8c
-	db			$dc,	$29,$1c,$8c
+	db	n_length+1,	$d3,	$1a,$1a,$8a
+	db			$d5,	$29,$7c,$8c
+	db			$d7,	$19,$93,$8c
+	db			$da,	$29,$ab,$8c
+	db			$d7,	$19,$c4,$8c
+	db			$d5,	$29,$df,$8c
+	db			$d3,	$19,$fb,$8c
+	db			$d3,	$29,$1c,$8c
+	db			$d5,	$19,$1c,$8c
+	db			$d7,	$29,$1c,$8c
 	db	sound_loop+5
-	db	n_length+1,	$df,	$19,$1c,$8c
-	db			$df,	$29,$1c,$8c
+	db	n_length+1,	$da,	$19,$1c,$8c
+	db			$da,	$29,$1c,$8c
 	db	sound_loop_break
-	db	n_length+1,	$df,	$19,$1c,$8c
-	db			$d4,	$29,$67,$8c
-	db			$d8,	$19,$7c,$8c
-	db			$dc,	$29,$9c,$8c
-	db			$df,	$29,$ab,$8c
-	db			$dc,	$19,$c4,$8c
-	db			$d8,	$29,$df,$8c
-	db			$d4,	$19,$fb,$8c
-	db			$d4,	$1a,$1a,$8a
-	db			$d4,	$2a,$3a,$8a
+	db	n_length+1,	$da,	$19,$1c,$8c
+	db			$d3,	$29,$67,$8c
+	db			$d5,	$19,$7c,$8c
+	db			$d7,	$29,$9c,$8c
+	db			$da,	$29,$ab,$8c
+	db			$d7,	$19,$c4,$8c
+	db			$d5,	$29,$df,$8c
+	db			$d3,	$19,$fb,$8c
+	db			$d3,	$1a,$1a,$8a
+	db			$d3,	$2a,$3a,$8a
 	db	sound_ret
 
 SFX_ScreenTapping:
@@ -581,7 +581,7 @@ SFX_BigBallOfViolence:
 	dw SFX_BigBallOfViolence_NSE
 
 SFX_BigBallOfViolence_NSE:
-	db	n_length+1,	$df,	$28
+	db	n_length+1,	$da,	$28
 	db				$23
 	db				$20
 	db				$23
