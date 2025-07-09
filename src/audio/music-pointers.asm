@@ -22,8 +22,8 @@ MusicPointers:
 	audio_ptr	0,	PRG_Music5,	Music_WildernessBoss
 	audio_ptr	0,	PRG_Music6,	Music_TreetopsMain
 	audio_ptr	0,	PRG_Music6,	Music_TreetopsBoss
-	audio_ptr	0,	PRG_Music5,	Music_WildernessMain
-	audio_ptr	0,	PRG_Music5,	Music_WildernessMain
+	audio_ptr	0,	PRG_Music7,	Music_SpaceshipMain
+	audio_ptr	0,	PRG_Music7,	Music_SpaceshipBoss
 
 Music_Nothing:
 	channels_tempo PUL1, PUL2, TRI, NSE, DPCM, 128

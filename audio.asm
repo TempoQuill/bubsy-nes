@@ -45,3 +45,7 @@
 
 .include "src/audio/music/treetops.asm"
 .align $2000
+
+.include "src/audio/music/spaceshipmain.asm"
+.include "src/audio/music/spaceshipboss.asm"
+.align $2000
