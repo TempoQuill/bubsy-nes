@@ -41,3 +41,7 @@
 .include "src/audio/music/wildernessmain.asm"
 .include "src/audio/music/wildernessboss.asm"
 .align $2000
+.base $8000
+
+.include "src/audio/music/treetops.asm"
+.align $2000

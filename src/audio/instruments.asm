@@ -8,7 +8,7 @@ PulseInstruments:
 	dw PulseOrgan
 	dw PulseSaxophone
 	dw PulseOrgan
-	dw PulseFIddle
+	dw PulseFiddle
 	dw PulsePiano
 	dw PulseWhistle
 	dw PulseXylophone
@@ -172,7 +172,7 @@ PulseOrgan:
 	db	$59,$59,$59,$59,$59,$59,$59,$59,$59,$59,$59
 	db	sound_loop | (@B - @A)
 
-PulseFIddle:
+PulseFiddle:
 	db	$d7
 	db	$df
 	db	$d8
