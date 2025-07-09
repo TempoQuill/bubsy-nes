@@ -10,7 +10,6 @@ PulseInstruments:
 	dw PulseOrgan
 	dw PulseFiddle
 	dw PulsePiano
-	dw PulseWhistle
 	dw PulseXylophone
 	dw PulseBoxingBell
 	dw PulseCarHorn1
@@ -33,7 +32,6 @@ PulseEffects:
 	dw EffectOrgan3
 	dw EffectNone ; fiddle
 	dw EffectPiano ; piano
-	dw EffectNone ; whistle
 	dw EffectNone ; xylophone
 	dw EffectSFX ; boxing bell
 	dw EffectNone ; car horn 1
@@ -203,17 +201,6 @@ PulsePiano:
 	db	$54,$54,$54
 	db	$53,$53,$53,$53,$53
 	db	$52,$52
-	db	sound_loop | (@B - @A)
-
-PulseWhistle:
-@A:
-	db	$94
-@B:
-	db	$96,$96
-	db	$95
-	db	$96
-	db	$95
-	db	$96
 	db	sound_loop | (@B - @A)
 
 EffectSFX:

@@ -135,7 +135,6 @@ i_sax2:		.dsb 1
 i_organ2:	.dsb 1
 i_fiddle:	.dsb 1
 i_piano:	.dsb 1
-i_whistle:	.dsb 1
 i_xylophone:	.dsb 1
 i_bell:		.dsb 1
 i_car1:		.dsb 1
