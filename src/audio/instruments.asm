@@ -44,7 +44,7 @@ PulseEffects:
 
 EffectBanjo:
 EffectOrgan2:
-	db	ins_chorus,1
+	db	ins_detune,1
 	db	ins_ret
 
 PulseBanjo:
@@ -149,15 +149,15 @@ PulseSaxophone:
 	db	sound_loop | (@B - @A)
 
 EffectOrgan1:
-	db	ins_chorus,1
 	db	ins_staccato,$f0
+	db	ins_detune,1
 	db	ins_ret
 
 EffectOrgan3:
-	db	ins_chorus,1
-	db	ins_staccato,$f0
 	db	ins_previbrato,13
 	db	ins_vibrato,$34
+	db	ins_staccato,$f0
+	db	ins_detune,1
 	db	ins_ret
 
 PulseOrgan:

@@ -379,7 +379,7 @@ UpdateChannel:
 ApplyTriangle:
 	LDA zCurrentChannelArea + CHANNEL_STACCATO
 	BNE @Staccato
-	LDA zCurrentChannelArea + CHANNEL_OCTAVE
+	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	BMI @Cut
 	LDA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	STA zCurrentVolumeLinear
@@ -417,7 +417,7 @@ InitStaccato:
 	LDA #0
 	STA zCurrentChannelArea + CHANNEL_STACCATO
 	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
-	LDA zCurrentChannelArea + CHANNEL_OCTAVE
+	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	BMI @Cut
 	LDA zCurrentChannelArea + CHANNEL_LINEAR_RATIO
 	ASL A
@@ -542,20 +542,13 @@ ApplyNoteEffects:
 	JSR GetRawPitch
 
 @CheckCut:
-	LDA zCurrentChannelArea + CHANNEL_OCTAVE
+	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	BMI @Cut
-
-@Chorus:
-	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
-	SEC
-	SBC zCurrentChannelArea + CHANNEL_CHORUS
-	STA zCurrentChannelArea + CHANNEL_RAW_PITCH
-	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
-	SBC #0
-	STA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
+	BEQ @Cut
 
 ; vibrato
 	LDA zCurrentChannelArea + CHANNEL_VIBRATO_STEP
+	AND #$7f
 	BEQ @Staccato
 	; pre-vibrato
 	LDA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY_COUNTER
@@ -565,19 +558,23 @@ ApplyNoteEffects:
 	JMP @Staccato
 
 @VibratoProper:
-	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
-	LDY zCurrentChannelArea + CHANNEL_VIBRATO_CREST
-	CLC
+	LDY zCurrentChannelArea + CHANNEL_VIBRATO_STEP
 	BMI @VibratoTroph
 
-	SBC zCurrentChannelArea + CHANNEL_VIBRATO_CREST
+	LDX zCurrentChannelArea + CHANNEL_VIBRATO_DEPTH
+	LDA VibratoCrestValues, X
+	CLC
+	ADC zCurrentChannelArea + CHANNEL_RAW_PITCH
 	BCS @VibratoStep
 
 	LDA #$00
 	BEQ @VibratoStep ; always branches
 
 @VibratoTroph:
-	ADC zCurrentChannelArea + CHANNEL_VIBRATO_TROPH
+	LDA zCurrentChannelArea + CHANNEL_VIBRATO_DEPTH
+	LSR A
+	CLC
+	ADC zCurrentChannelArea + CHANNEL_RAW_PITCH
 	BCC @VibratoStep
 
 	LDA #$ff
@@ -590,10 +587,11 @@ ApplyNoteEffects:
 
 @VibratoNext:
 	LDA zCurrentChannelArea + CHANNEL_VIBRATO_STEP
+	AND #$7f
 	STA zCurrentChannelArea + CHANNEL_VIBRATO_STEP_COUNTER
 	LDA #$80
-	EOR zCurrentChannelArea + CHANNEL_VIBRATO_CREST
-	STA zCurrentChannelArea + CHANNEL_VIBRATO_CREST
+	EOR zCurrentChannelArea + CHANNEL_VIBRATO_STEP
+	STA zCurrentChannelArea + CHANNEL_VIBRATO_STEP
 
 @Staccato:
 	LDA zCurrentChannelArea + CHANNEL_STACCATO
@@ -608,7 +606,6 @@ ApplyNoteEffects:
 @CutNote:
 	LDA #0
 	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
-	STA zCurrentChannelArea + CHANNEL_OCTAVE
 	LDA #$10
 	STA zCurrentVolumeLinear
 
@@ -680,6 +677,24 @@ ApplyNoteEffects:
 	STA zCurrentChannelArea + CHANNEL_DUTY_LOOP_OVERRIDE
 	RTS
 
+VibratoCrestValues:
+	db $00
+	db $ff
+	db $ff
+	db $fe
+	db $fe
+	db $fd
+	db $fd
+	db $fc
+	db $fc
+	db $fb
+	db $fb
+	db $fa
+	db $fa
+	db $f9
+	db $f9
+	db $f8
+
 InitNoteEffects:
 ; apply any effects listed if on the pulse 1/2 channels
 	; before we do anything, did we encounter a tie?
@@ -696,7 +711,7 @@ InitNoteEffects:
 	CPX #CHAN5 ; which set are we on?
 	; in case we do go through, load up initialization parameters
 	LDA #0
-	LDY #CHANNEL_STRUCTURE - CHANNEL_CHORUS
+	LDY #CHANNEL_STRUCTURE - CHANNEL_VIBRATO_DELAY
 	BCC @SFX
 ; are we on the pulse channels?
 ;music
@@ -713,7 +728,7 @@ InitNoteEffects:
 ; like vibrato... and chorus...
 	; let's initialize the effect area for a clean slate
 	DEY
-	STA zCurrentChannelArea + CHANNEL_CHORUS, Y
+	STA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY, Y
 	BNE @Valid
 	; exit early if we're reading sound effect data
 	LDA zCurrentChannelArea + CHANNEL_SONG_CONFIGURATION
@@ -747,18 +762,12 @@ InitNoteEffects:
 	RTS
 
 @EffectPointers:
-	dw @Chorus - 1
 	dw @PreVibrato - 1
 	dw @Vibrato - 1
 	dw @Staccato - 1
 	dw @Detune - 1
-	dw @Transposition - 1
 	dw @Sweep - 1
 	dw @DutyLoop - 1
-
-@Chorus:
-	LDX #CHANNEL_CHORUS
-	BNE @Common
 
 @PreVibrato:
 	LDX #CHANNEL_VIBRATO_DELAY
@@ -768,13 +777,11 @@ InitNoteEffects:
 
 @Vibrato:
 	LDA (zCurrentEffectPointer), Y ; depth
-	ROL A
-	ROL A
-	ROL A
-	ROL A
-	AND #$07 ; doesn't affect carry
-	STA zCurrentChannelArea + CHANNEL_VIBRATO_TROPH
-	STA zCurrentChannelArea + CHANNEL_VIBRATO_CREST
+	LSR A
+	LSR A
+	LSR A
+	LSR A
+	STA zCurrentChannelArea + CHANNEL_VIBRATO_DEPTH
 	LDA (zCurrentEffectPointer), Y ; step
 	AND #$0f
 	STA zCurrentChannelArea + CHANNEL_VIBRATO_STEP
@@ -793,10 +800,6 @@ InitNoteEffects:
 	DEC zCurrentChannelArea + CHANNEL_RAW_PITCH_MODIFIER + 1
 @Done:
 	JMP @Parse
-
-@Transposition:
-	LDX #CHANNEL_TRANSPOSITION
-	BNE @Common
 
 @Sweep:
 	LDX #CHANNEL_SWEEP
@@ -1119,10 +1122,8 @@ DisectNote:
 	dw @DPCM - 1
 
 @Rest:
-	LDA #0
-	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	LDA #$80
-	STA zCurrentChannelArea + CHANNEL_OCTAVE
+	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	RTS
 
 @Tie:
@@ -1142,7 +1143,6 @@ DisectNote:
 	JSR @Tie
 	JMP GetRawPitch
 @PulseNote:
-	JSR @TransposeAndSeparateOctave
 	JMP GetRawPitch
 
 @Tri:
@@ -1155,7 +1155,6 @@ DisectNote:
 	JSR @Tie
 	JMP GetRawPitch
 @TriNote:
-	JSR @SeparateOctave
 	JSR GetRawPitch
 	LDA #$80
 	ORA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
@@ -1193,34 +1192,6 @@ DisectNote:
 	INY
 	LDA (zDPCMSamplePointer), Y
 	STA zDPCMAnalogs + 3
-	RTS
-
-@TransposeAndSeparateOctave:
-	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
-	TAY
-	AND #$f0
-	CLC
-	ADC zCurrentChannelArea + CHANNEL_TRANSPOSITION
-	AND #$f0
-	STA zCurrentChannelArea + CHANNEL_OCTAVE
-	TYA
-	AND #$0f
-	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
-	CLC
-	LDA zCurrentChannelArea + CHANNEL_TRANSPOSITION
-	AND #$0f
-	ADC zCurrentChannelArea + CHANNEL_ENCODED_NOTE
-	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
-	RTS
-
-@SeparateOctave:
-	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
-	TAY
-	AND #$f0
-	STA zCurrentChannelArea + CHANNEL_OCTAVE
-	TYA
-	AND #$0f
-	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	RTS
 
 ExecuteMusicCommand:
@@ -1356,6 +1327,7 @@ SFX_None: ; SFX: $c0-$df
 GetRawPitch:
 	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	BEQ @Done
+	AND #$0f
 	ASL A
 	TAY
 	LDA Notes, Y
@@ -1366,7 +1338,7 @@ GetRawPitch:
 	INY
 	LDA Notes, Y
 	STA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
-	LDA zCurrentChannelArea + CHANNEL_OCTAVE
+	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 @Loop:
 	SEC
 	SBC #$10

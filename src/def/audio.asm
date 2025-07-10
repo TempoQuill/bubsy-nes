@@ -58,14 +58,12 @@ sound_ret = $00
 
 ; instrument-allocated effects, pulses only
 ins_ret = $00
-ins_chorus = $01	; sharpens raw pitch by 1
-ins_previbrato = $02	; frames before vibrato begins playing
-ins_vibrato = $04	; vibrato settings, both params 0-15 ($00 = flutter)
-ins_staccato = $08	; pulses may use this like the triangle channel uses $c0-$df
-ins_detune = $10	; adds value to decoded pitch, $ff80-$007f (as 1 byte)
-ins_transposition = $20	; adds value to encoded pitch (unused, but should work fine)
-ins_sweep = $40		; in-music pitch sweep
-ins_duty_loop = $80	; 4 duty cycles in sequence (1 crumb per duty parameter)
+ins_previbrato = $01	; frames before vibrato begins playing
+ins_vibrato = $02	; vibrato settings, both params 0-15 ($00 = flutter)
+ins_staccato = $04	; pulses may use this like the triangle channel uses $c0-$df
+ins_detune = $08	; adds value to decoded pitch, $ff80-$007f (as 1 byte)
+ins_sweep = $10		; in-music pitch sweep
+ins_duty_loop = $20	; 4 duty cycles in sequence (1 crumb per duty parameter)
 
 .enum 0
 CHANNEL_INSTRUMENT:		.dsb 1
@@ -75,7 +73,6 @@ CHANNEL_SONG_CONFIGURATION:	.dsb 1
 CHANNEL_SONG_BANK:		.dsb 1
 CHANNEL_POINTER:		.dsb 2
 CHANNEL_ENCODED_NOTE:		.dsb 1
-CHANNEL_OCTAVE:			.dsb 1
 CHANNEL_RAW_PITCH:		.dsb 2
 CHANNEL_NOTE_LENGTH:		.dsb 1
 CHANNEL_NOTE_LENGTH_MULTIPLIER:	.dsb 1
@@ -84,17 +81,14 @@ CHANNEL_NOTE_DURATION:		.dsb 2
 CHANNEL_MAIN_LOOP_POINTER:	.dsb 2
 CHANNEL_LOOP_POINTER:		.dsb 2
 CHANNEL_LOOP_COUNTER:		.dsb 1
-CHANNEL_CHORUS:			.dsb 1
 CHANNEL_VIBRATO_DELAY:		.dsb 1
-CHANNEL_VIBRATO_CREST:		.dsb 1
-CHANNEL_VIBRATO_TROPH:		.dsb 1
+CHANNEL_VIBRATO_DEPTH:		.dsb 1
 CHANNEL_VIBRATO_STEP:		.dsb 1
 CHANNEL_VIBRATO_DELAY_COUNTER:	.dsb 1
 CHANNEL_VIBRATO_STEP_COUNTER:	.dsb 1
 CHANNEL_STACCATO:		.dsb 1
 CHANNEL_STACCATO_COUNTER:	.dsb 1
 CHANNEL_RAW_PITCH_MODIFIER:	.dsb 2
-CHANNEL_TRANSPOSITION:		.dsb 1
 CHANNEL_SWEEP:			.dsb 1
 CHANNEL_DUTY_LOOP_OVERRIDE:	.dsb 1
 CHANNEL_STRUCTURE:
@@ -112,7 +106,6 @@ CHANNEL_RAW_LINEAR_OUTPUT = CHANNEL_SWEEP
 CHANNEL_DRUM_NOTE_LENGTH:	.dsb 1
 	.dsb 1
 CHANNEL_RAW_VOLUME:		.dsb 1
-	.dsb 1
 CHANNEL_DRUM_NOTE_DURATION:	.dsb 1
 .ende
 
