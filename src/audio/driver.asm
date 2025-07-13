@@ -12,11 +12,11 @@ _InitSound:
 	DEX
 	BPL @VolatileLoop
 	LDX #(CHANNEL_STRUCTURE * 5) ; 35 * 5 - 1 = 175
-@ChannelsLoop:
+ChannelsLoop:
 	DEX
 	STA iChannel01, X
 	STA iChannel06, X
-	BNE @ChannelsLoop
+	BNE ChannelsLoop
 	PLA
 	TAX
 	PLA
@@ -35,25 +35,47 @@ _AdvanceSound:
 	RTS
 @DoSound:
 ; start rolling sound
-	JSR InitChannelPointer
+	LDA #<(iChannel01 - CHANNEL_STRUCTURE)
+	STA zCurrentChannelPointer
+	LDA #>(iChannel01 - CHANNEL_STRUCTURE)
+	STA zCurrentChannelPointer + 1
+	LDA zMusicChannelFlags
+	ORA zSFXChannelFlags
+	STA zCurrentAudioScratchData
+	LDA #5
+	STA zCurrentAudioScratchData + 1
 @NextChannel:
 	; first, get the channel
 	; if an APU channel is active via sfx or music, skip ahead
-	JSR IncChannelPointer
+	LDA #CHANNEL_STRUCTURE
+	CLC
+	ADC zCurrentChannelPointer
+	STA zCurrentChannelPointer
+	LDA #0
+	ADC zCurrentChannelPointer + 1
+	STA zCurrentChannelPointer + 1
+	DEC zCurrentAudioScratchData + 1
+	LSR zCurrentAudioScratchData
 	BCS @DoWorkOnChannel
 
 	; if both scratch bytes are 0...
 	LDA zCurrentAudioScratchData + 1
 	BPL @NextChannel
 
-	JSR ResetTempChannelInfo ; just in case
+	; just in case
+	LDA zMusicChannelFlags
+	ORA zSFXChannelFlags
+	STA zCurrentAudioScratchData
+	LDA #5
+	STA zCurrentAudioScratchData + 1
 	; ...and we've reached the end of channel RAM
 	LDA zCurrentChannelPointer + 1
 	CMP #>iChannel10 ; left=low, right=high
 	BCS @RollFinished ; then clear the temp flags and get outta here
 
 	; re-shift the channel flags to do work on Music Pulse 1
-	JSR ShiftChannelIn
+	DEC zCurrentAudioScratchData + 1
+	LSR zCurrentAudioScratchData
 	BCS @DoWorkOnChannel
 	BCC @NextChannel
 
@@ -77,8 +99,28 @@ _AdvanceSound:
 	; alright, if we're still mid-note, skip ahead
 	DEC zCurrentChannelArea + CHANNEL_NOTE_DURATION
 	BNE @MidNote
+
 	JSR ParseAudioData ; keep reading until we hit a note
-	JSR SetNoteDuration ; length*multi*tempo/256 = duration
+	; length*multi*tempo/256 = duration
+	LDA zCurrentChannelArea + CHANNEL_NOTE_LENGTH
+	STA MMC5_Multiplier1
+	LDA zCurrentChannelArea + CHANNEL_NOTE_LENGTH_MULTIPLIER
+	STA MMC5_Multiplier2
+	LDA MMC5_Multiplier1
+	STA MMC5_Multiplier1
+	LDA zCurrentChannelArea + CHANNEL_TEMPO
+	STA MMC5_Multiplier2
+	LDA MMC5_Multiplier1
+	LDY MMC5_Multiplier2
+	CLC
+	ADC zCurrentChannelArea + CHANNEL_NOTE_DURATION + 1
+	STA zCurrentChannelArea + CHANNEL_NOTE_DURATION + 1
+	TYA
+	ADC zCurrentChannelArea + CHANNEL_NOTE_DURATION
+	STA zCurrentChannelArea + CHANNEL_NOTE_DURATION
+	BNE @DurDone
+	INC zCurrentChannelArea + CHANNEL_NOTE_DURATION
+@DurDone:
 	; trigger a full update
 	LDA #$80
 	ORA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
@@ -94,7 +136,15 @@ _AdvanceSound:
 	JSR ApplyChannel
 	; now to check for sound effects
 	; first of all, are we in a sound effect channel?
-	JSR LoadChannelOffset
+	LDX #$ff
+@ChanLoop:
+	LDA zCurrentChannelPointer + 1
+	INX
+	CMP ChannelsHi, X
+	BNE @ChanLoop
+	LDA zCurrentChannelPointer
+	CMP ChannelsLo, X
+	BNE @ChanLoop
 	CPX #CHAN5
 	BCC @SkipPriority ; skip ahead if we are
 	; else, let's load up the channel offset
@@ -131,7 +181,15 @@ ChannelSetBufferOffsets:
 	db CHANNEL_STRUCTURE * CHAN4
 
 UpdateChannel:
-	JSR LoadChannelOffset
+	LDX #$ff
+@Loop:
+	LDA zCurrentChannelPointer + 1
+	INX
+	CMP ChannelsHi, X
+	BNE @Loop
+	LDA zCurrentChannelPointer
+	CMP ChannelsLo, X
+	BNE @Loop
 	TXA
 	ASL A
 	TAX
@@ -400,7 +458,15 @@ ApplyTriangle:
 	RTS
 
 InitStaccato:
-	JSR LoadChannelOffset
+	LDX #$ff
+@Loop:
+	LDA zCurrentChannelPointer + 1
+	INX
+	CMP ChannelsHi, X
+	BNE @Loop
+	LDA zCurrentChannelPointer
+	CMP ChannelsLo, X
+	BNE @Loop
 	CPX #CHAN2
 	BEQ @Tri
 	CPX #CHAN7
@@ -436,6 +502,9 @@ InitStaccato:
 	ROL zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	ASL A
 	ROL zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
+	LDA #0
+	STA zCurrentChannelArea + CHANNEL_STACCATO
+	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
 	RTS
 
 @Cut:
@@ -707,7 +776,15 @@ InitNoteEffects:
 	LDA #0 ; since we know we're not in a tie, clear the instrument offset
 	STA zCurrentChannelArea + CHANNEL_INSTRUMENT_OFFSET
 	; now, make sure we are on the appropriate channels
-	JSR LoadChannelOffset
+	LDX #$ff
+@Loop:
+	LDA zCurrentChannelPointer + 1
+	INX
+	CMP ChannelsHi, X
+	BNE @Loop
+	LDA zCurrentChannelPointer
+	CMP ChannelsLo, X
+	BNE @Loop
 	CPX #CHAN5 ; which set are we on?
 	; in case we do go through, load up initialization parameters
 	LDA #0
@@ -768,11 +845,15 @@ InitNoteEffects:
 	dw @Detune - 1
 	dw @Sweep - 1
 	dw @DutyLoop - 1
+	dw @None - 1
+	dw @None - 1
 
 @PreVibrato:
-	LDX #CHANNEL_VIBRATO_DELAY
-	JSR @Transfer
+	LDA (zCurrentEffectPointer), Y
+	INY
+	STA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY
 	STA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY_COUNTER
+@None:
 	JMP @Parse
 
 @Vibrato:
@@ -789,33 +870,32 @@ InitNoteEffects:
 	JMP @Parse
 
 @Staccato:
-	LDX #CHANNEL_STACCATO
-	BNE @Common
+	LDA (zCurrentEffectPointer), Y
+	INY
+	STA zCurrentChannelArea + CHANNEL_STACCATO
+	JMP @Parse
 
 @Detune:
-	LDX #CHANNEL_RAW_PITCH_MODIFIER
-	JSR @Transfer
-	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH_MODIFIER
+	LDA (zCurrentEffectPointer), Y
+	INY
+	STA zCurrentChannelArea + CHANNEL_RAW_PITCH_MODIFIER
+	TAX
 	BPL @Done
 	DEC zCurrentChannelArea + CHANNEL_RAW_PITCH_MODIFIER + 1
 @Done:
 	JMP @Parse
 
 @Sweep:
-	LDX #CHANNEL_SWEEP
-	BNE @Common
-
-@DutyLoop:
-	LDX #CHANNEL_DUTY_LOOP_OVERRIDE
-@Common:
-	JSR @Transfer
-	JMP @Parse
-
-@Transfer:
 	LDA (zCurrentEffectPointer), Y
 	INY
-	STA zCurrentChannelArea, X
-	RTS
+	STA zCurrentChannelArea + CHANNEL_SWEEP
+	JMP @Parse
+
+@DutyLoop:
+	LDA (zCurrentEffectPointer), Y
+	INY
+	STA zCurrentChannelArea + CHANNEL_DUTY_LOOP_OVERRIDE
+	JMP @Parse
 
 ParseAudioData:
 	LDY #0
@@ -836,7 +916,15 @@ ParseAudioData_Ret:
 	LDY #0 ; init address offset again
 	ORA zCurrentChannelArea + CHANNEL_POINTER
 	BNE ParseAudioData_Music
-	JSR LoadChannelOffset
+	LDX #$ff
+@Loop:
+	LDA zCurrentChannelPointer + 1
+	INX
+	CMP ChannelsHi, X
+	BNE @Loop
+	LDA zCurrentChannelPointer
+	CMP ChannelsLo, X
+	BNE @Loop
 	CPX #CHAN4
 	BEQ ParseAudioData_SetDPCM
 	BCC ParseAudioData_PSG
@@ -886,7 +974,15 @@ ParseSoundEffectData:
 ; stack jump
 ; all pointers in this table are behind by one to accommodate the NES's quirk
 ; of saving to the stack just before incrementing to the next instruction
-	JSR LoadChannelOffset ; loads X as a pointer offset
+	LDX #$ff
+@Loop:
+	LDA zCurrentChannelPointer + 1
+	INX
+	CMP ChannelsHi, X
+	BNE @Loop
+	LDA zCurrentChannelPointer
+	CMP ChannelsLo, X
+	BNE @Loop
 	TXA
 	ASL A
 	TAX
@@ -1099,7 +1195,15 @@ ParseSoundEffectData:
 	JMP ChannelAddressZipper
 
 DisectNote:
-	JSR LoadChannelOffset
+	LDX #$ff
+@Loop:
+	LDA zCurrentChannelPointer + 1
+	INX
+	CMP ChannelsHi, X
+	BNE @Loop
+	LDA zCurrentChannelPointer
+	CMP ChannelsLo, X
+	BNE @Loop
 	TXA
 	ASL A
 	TAX
@@ -1126,13 +1230,6 @@ DisectNote:
 	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	RTS
 
-@Tie:
-	LDA zCurrentPitchID
-	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
-	LDA #0
-	STA zCurrentPitchID
-	RTS
-
 @Pulse:
 	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	AND #$0f
@@ -1140,8 +1237,10 @@ DisectNote:
 	BCC @PulseNote
 	CMP #n_cut
 	BCS @Rest
-	JSR @Tie
-	JMP GetRawPitch
+	LDA zCurrentPitchID
+	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
+	LDA #0
+	STA zCurrentPitchID
 @PulseNote:
 	JMP GetRawPitch
 
@@ -1152,7 +1251,10 @@ DisectNote:
 	BCC @TriNote
 	CMP #n_cut
 	BCS @Rest
-	JSR @Tie
+	LDA zCurrentPitchID
+	STA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
+	LDA #0
+	STA zCurrentPitchID
 	JMP GetRawPitch
 @TriNote:
 	JSR GetRawPitch
@@ -1165,6 +1267,9 @@ DisectNote:
 	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	ASL A
 	STA zCurrentChannelArea + CHANNEL_DRUM_ID
+	LDA #0
+	STA zCurrentChannelArea + CHANNEL_DRUM_NOTE_DURATION
+	STA zCurrentChannelArea + CHANNEL_DRUM_NOTE_LENGTH
 	RTS
 
 @DPCM:
@@ -1352,42 +1457,7 @@ GetRawPitch:
 	STA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
 	RTS
 
-SetNoteDuration:
-	LDA zCurrentChannelArea + CHANNEL_NOTE_LENGTH
-	STA MMC5_Multiplier1
-	LDA zCurrentChannelArea + CHANNEL_NOTE_LENGTH_MULTIPLIER
-	STA MMC5_Multiplier2
-	LDA MMC5_Multiplier1
-	STA MMC5_Multiplier1
-	LDA zCurrentChannelArea + CHANNEL_TEMPO
-	STA MMC5_Multiplier2
-	LDA MMC5_Multiplier1
-	LDY MMC5_Multiplier2
-	CLC
-	ADC zCurrentChannelArea + CHANNEL_NOTE_DURATION + 1
-	STA zCurrentChannelArea + CHANNEL_NOTE_DURATION + 1
-	TYA
-	ADC zCurrentChannelArea + CHANNEL_NOTE_DURATION
-	STA zCurrentChannelArea + CHANNEL_NOTE_DURATION
-	BNE @Done
-	INC zCurrentChannelArea + CHANNEL_NOTE_DURATION
-@Done:
-	RTS
-
-LoadChannelOffset:
-; output: X
-	LDX #$ff
-@Loop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP @ChannelsHi, X
-	BNE @Loop
-	LDA zCurrentChannelPointer
-	CMP @ChannelsLo, X
-	BNE @Loop
-	RTS
-
-@ChannelsLo:
+ChannelsLo:
 	dl iChannel01
 	dl iChannel02
 	dl iChannel03
@@ -1399,7 +1469,7 @@ LoadChannelOffset:
 	dl iChannel09
 	dl iChannel10
 
-@ChannelsHi:
+ChannelsHi:
 	dh iChannel01
 	dh iChannel02
 	dh iChannel03
@@ -1577,32 +1647,6 @@ ClearChannelBuffer:
 	BPL @loop
 	RTS
 
-InitChannelPointer:
-	LDA #<(iChannel01 - CHANNEL_STRUCTURE)
-	STA zCurrentChannelPointer
-	LDA #>(iChannel01 - CHANNEL_STRUCTURE)
-	STA zCurrentChannelPointer + 1
-ResetTempChannelInfo:
-	LDA zMusicChannelFlags
-	ORA zSFXChannelFlags
-	STA zCurrentAudioScratchData
-	LDA #5
-	STA zCurrentAudioScratchData + 1
-	RTS
-
-IncChannelPointer:
-	LDA #CHANNEL_STRUCTURE
-	CLC
-	ADC zCurrentChannelPointer
-	STA zCurrentChannelPointer
-	LDA #0
-	ADC zCurrentChannelPointer + 1
-	STA zCurrentChannelPointer + 1
-ShiftChannelIn:
-	DEC zCurrentAudioScratchData + 1
-	LSR zCurrentAudioScratchData
-	RTS
-
 ChannelAddressZipper:
 	TYA
 	CLC
@@ -1614,7 +1658,15 @@ ChannelAddressZipper:
 	RTS
 
 ApplyChannel:
-	JSR LoadChannelOffset
+	LDX #$ff
+@Loop:
+	LDA zCurrentChannelPointer + 1
+	INX
+	CMP ChannelsHi, X
+	BNE @Loop
+	LDA zCurrentChannelPointer
+	CMP ChannelsLo, X
+	BNE @Loop
 	TXA
 	ASL A
 	TAX
