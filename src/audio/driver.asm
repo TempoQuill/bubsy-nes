@@ -486,6 +486,8 @@ InitStaccato:
 	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	BMI @Cut
 	LDA zCurrentChannelArea + CHANNEL_LINEAR_RATIO
+	AND #$3e
+	BEQ @Inf
 	ASL A
 	ASL A
 	STA MMC5_Multiplier1
@@ -502,6 +504,14 @@ InitStaccato:
 	ROL zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	ASL A
 	ROL zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
+	LDA #0
+	STA zCurrentChannelArea + CHANNEL_STACCATO
+	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
+	RTS
+
+@Inf:
+	LDA #$81
+	STA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	LDA #0
 	STA zCurrentChannelArea + CHANNEL_STACCATO
 	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
@@ -698,6 +708,8 @@ ApplyNoteEffects:
 	LDA zCurrentVolumeLinear
 	BNE @DutyLoop
 	LDX zCurrentChannelArea + CHANNEL_INSTRUMENT
+	DEX
+	DEX
 	LDA PulseInstruments, X
 	STA zCurrentInstrumentPointer
 	LDA PulseInstruments + 1, X
@@ -814,6 +826,8 @@ InitNoteEffects:
 @Load:
 	; let's load the instrument ID to find what effect stream we should use
 	LDX zCurrentChannelArea + CHANNEL_INSTRUMENT
+	DEX
+	DEX
 	LDA PulseEffects, X
 	STA zCurrentEffectPointer
 	LDA PulseEffects + 1, X
@@ -1356,6 +1370,7 @@ SFX_LinearOutputRatio:
 ; only skip PLA when playing sound effect triangle data
 	AND #$1f
 	ASL A ; multiply by 2 ahead of time
+	ADC #2
 	STA zCurrentChannelArea + CHANNEL_LINEAR_RATIO
 	RTS
 

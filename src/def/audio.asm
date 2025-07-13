@@ -36,18 +36,18 @@ oct_7 = $70
 
 s_rest = $40
 
-; tempo * n_length * n_multi
-; -------------------------- = final note length (in frames)
-;             256
+; tempo * (n_length * n_multi & $ff)
+; ---------------------------------- = final note length (in frames)
+;                 256
 n_length = $7f
 n_multi = $a0
 
 instrument = $c0	; 32 available
 
-; lnr_ratio * final_note_length
-; ----------------------------- = triangle audio langth (in frames), set to $81 if > $7f
-;              128
-lnr_ratio = $c0
+; lnr_ratio * final_note_length * 4
+; --------------------------------- = triangle audio langth (in frames), set to $81 if > $7f
+;              32
+lnr_ratio = $bf
 sfx_volume = $c0
 
 sound_main_loop_set = $e0	; $e0 ... data ... $00
@@ -95,18 +95,18 @@ CHANNEL_STRUCTURE:
 .ende
 
 .enum CHANNEL_INSTRUMENT
-CHANNEL_DRUM_ID:		.dsb 1
-CHANNEL_DRUM_OFFSET:		.dsb 1
+CHANNEL_DRUM_ID:		.dsb 1 ; CHANNEL_INSTRUMENT
+CHANNEL_DRUM_OFFSET:		.dsb 1 ; CHANNEL_INSTRUMENT_OFFSET
 .ende
 
 CHANNEL_LINEAR_RATIO = CHANNEL_INSTRUMENT
 CHANNEL_RAW_LINEAR_OUTPUT = CHANNEL_SWEEP
 
 .enum CHANNEL_VIBRATO_DELAY
-CHANNEL_DRUM_NOTE_LENGTH:	.dsb 1
+CHANNEL_DRUM_NOTE_LENGTH:	.dsb 1 ; CHANNEL_VIBRATO_DELAY
 	.dsb 1
-CHANNEL_RAW_VOLUME:		.dsb 1
-CHANNEL_DRUM_NOTE_DURATION:	.dsb 1
+CHANNEL_RAW_VOLUME:		.dsb 1 ; CHANNEL_VIBRATO_STEP
+CHANNEL_DRUM_NOTE_DURATION:	.dsb 1 ; CHANNEL_VIBRATO_DELAY_COUNTER
 .ende
 
 ; audio data header bits

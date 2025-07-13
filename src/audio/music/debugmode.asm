@@ -149,8 +149,9 @@ Music_DebugMode_TRI:
 	db			n_length+18,	oct_3+A#
 	db					oct_3+A#
 	db					oct_3+A#
+	db	lnr_ratio+32
 	db	n_multi+6,	n_length+27,	oct_3+A_
-	db					oct_3+A_
+	db					n_tie
 	db	sound_ret
 
 Music_DebugMode_NSE:
