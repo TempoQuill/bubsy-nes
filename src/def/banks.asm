@@ -10,12 +10,9 @@ PRG_Music0: ; cross-bank
 PRG_Audio:	.dsb 1
 PRG_Music1: ; title/scenes
 PRG_SFX0:	.dsb 1
-PRG_Music2:	.dsb 1 ; village
-PRG_Music3:	.dsb 1 ; fair
-PRG_Music4:	.dsb 1 ; desert
-PRG_Music5:	.dsb 1 ; wilderness
-PRG_Music6:	.dsb 1 ; treetops
-PRG_Music7:	.dsb 1 ; spaceship
+PRG_Music2:	.dsb 1
+PRG_Music3:	.dsb 1
+PRG_Music4:	.dsb 1
 .ende
 
 PRG_Home = $ff

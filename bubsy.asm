@@ -12,6 +12,9 @@
 
 .include "audio.asm"
 
+	.dsb $2000 ; 8
+	.dsb $2000 ; 9
+	.dsb $2000 ; 10
 	.dsb $2000 ; 11
 	.dsb $2000 ; 12
 	.dsb $2000 ; 13
