@@ -38,6 +38,8 @@ Start:
 	CLC
 	ADC zLocalSong
 	TAX
+	LDY #MUSIC_NONE
+	JSR PlayMusic
 	LDY MusicBankData, X
 	JSR PlayMusic
 	JMP @NoMusic
@@ -278,6 +280,8 @@ RunChapterFrame:
 	CLC
 	ADC ChapterMusicOffsets, Y
 	TAX
+	LDY #MUSIC_NONE
+	JSR PlayMusic
 	LDY MusicBankData, X
 	LDA #0
 	STA zChapterFramesLeft

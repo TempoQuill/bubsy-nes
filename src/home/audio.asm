@@ -63,9 +63,15 @@ PlayMusic:
 	PHA
 	LDA zPRGWindow2
 	PHA
+	TYA
+	BEQ @None
+	JSR SetMainAudioBank
+	JSR _PlayMusic
+	JMP @Done
+@None:
 	JSR SetMainAudioBank
 	JSR _InitSound
-	JSR _PlayMusic
+@Done:
 	PLA
 	STA zPRGWindow2
 	STA MMC5_PRGBankSwitch2
