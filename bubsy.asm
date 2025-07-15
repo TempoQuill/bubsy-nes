@@ -9,9 +9,11 @@
 	.dsb $2000 ; 0
 	.dsb $2000 ; 1
 	.dsb $2000 ; 2
-
-.include "audio.asm"
-
+	.dsb $2000 ; 3
+	.dsb $2000 ; 4
+	.dsb $2000 ; 5
+	.dsb $2000 ; 6
+	.dsb $2000 ; 7
 	.dsb $2000 ; 8
 	.dsb $2000 ; 9
 	.dsb $2000 ; 10
@@ -110,10 +112,8 @@
 	.dsb $2000 ; 103
 	.dsb $2000 ; 104
 	.dsb $2000 ; 105
-	.dsb $2000 ; 106
-	.dsb $2000 ; 107
-	.dsb $2000 ; 108
-	.dsb $2000 ; 109
+
+.include "audio.asm"
 
 .include "dmc.asm"
 

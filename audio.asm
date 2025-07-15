@@ -9,7 +9,7 @@
 
 .include "src/audio/music/titlescreen.asm"
 .include "src/audio/music/ending.asm"
-.include "src/audio/music/invincible.asm"
+.include "src/audio/music/villageboss.asm"
 .align $2000
 
 .include "src/audio/sfx.asm"
@@ -22,6 +22,7 @@
 .include "src/audio/music/continue.asm"
 .include "src/audio/music/debugmode.asm"
 .include "src/audio/music/invisible.asm"
+.include "src/audio/music/invincible.asm"
 .include "src/audio/music/slide.asm"
 .align $2000
 
@@ -37,8 +38,4 @@
 .include "src/audio/music/fairmain.asm"
 .include "src/audio/music/fairboss.asm"
 .include "src/audio/music/sanddune.asm"
-.align $2000
-
-.base $8000
-.include "src/audio/music/villageboss.asm"
 .align $2000

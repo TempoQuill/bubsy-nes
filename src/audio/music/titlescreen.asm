@@ -9,11 +9,9 @@ Music_TitleScreen:
 Music_TitleScreen_PUL1:
 	db	sound_main_loop_set
 	db	instrument+i_brass_sctn
-	db	n_multi+4,	n_length+8,	n_cut
-	db			n_length+10,	n_cut
+	db	n_multi+4,	n_length+18,	n_cut
 	db			n_length+4,	oct_4+G_
-	db			n_length+10,	n_cut
-	db					n_cut
+	db			n_length+20,	n_cut
 	db			n_length+4,	oct_4+E_
 	db			n_length+8,	n_cut
 	db			n_length+3,	oct_4+D#
@@ -48,8 +46,7 @@ Music_TitleScreen_PUL1:
 	db			n_length+2,	n_cut
 	db			n_length+4,	oct_4+B_
 	db			n_length+5,	oct_5+C_
-	db			n_length+21,	n_cut
-	db			n_length+10,	n_cut
+	db			n_length+31,	n_cut
 	db			n_length+1,	oct_3+G_
 	db					n_cut
 	db			n_length+4,	oct_3+A#
@@ -153,8 +150,7 @@ Music_TitleScreen_PUL1:
 	db			n_length+2,	oct_4+D#
 	db			n_length+8,	n_cut
 	db					oct_4+D#
-	db			n_length+6,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+10,	n_cut
 	db			n_length+2,	oct_4+C_
 	db			n_length+4,	oct_4+D#
 	db			n_length+1,	oct_4+C_
@@ -177,13 +173,11 @@ Music_TitleScreen_PUL1:
 	db			n_length+3,	oct_5+C_
 	db			n_length+9,	n_cut
 	db			n_length+3,	oct_4+D#
-	db			n_length+1,	n_cut
-	db			n_length+20,	n_cut
+	db			n_length+21,	n_cut
 	db			n_length+16,	oct_4+D#
 	db			n_length+8,	n_cut
 	db			n_length+3,	oct_4+F_
-	db			n_length+1,	n_cut
-	db			n_length+8,	n_cut
+	db			n_length+9,	n_cut
 	db			n_length+3,	oct_4+G_
 	db			n_length+1,	n_cut
 	db			n_length+4,	oct_4+F_
@@ -208,8 +202,7 @@ Music_TitleScreen_PUL1:
 	db					n_cut
 	db			n_length+8,	oct_4+G_
 	db			n_length+6,	oct_4+D#
-	db			n_length+10,	n_cut
-	db			n_length+8,	n_cut
+	db			n_length+18,	n_cut
 	db			n_length+3,	oct_4+G_
 	db			n_length+9,	n_cut
 	db			n_length+3,	oct_4+G_
@@ -260,8 +253,7 @@ Music_TitleScreen_PUL1:
 	db			n_length+2,	n_cut
 	db			n_length+4,	oct_4+D#
 	db					oct_4+C_
-	db			n_length+22,	n_cut
-	db			n_length+10,	n_cut
+	db			n_length+32,	n_cut
 	db			n_length+2,	oct_4+G_
 	db			n_length+10,	n_cut
 	db			n_length+2,	oct_4+F_
@@ -292,18 +284,15 @@ Music_TitleScreen_PUL1:
 	db			n_length+3,	oct_4+E_
 	db			n_length+1,	n_cut
 	db			n_length+2,	oct_4+C_
-	db			n_length+6,	n_cut
-	db			n_length+16,	n_cut
+	db			n_length+22,	n_cut
 	db	sound_ret
 
 Music_TitleScreen_PUL2:
 	db	sound_main_loop_set
 	db	instrument+i_sax1
-	db	n_multi+4,	n_length+8,	n_cut
-	db			n_length+10,	n_cut
+	db	n_multi+4,	n_length+18,	n_cut
 	db			n_length+4,	oct_3+G_
-	db			n_length+10,	n_cut
-	db					n_cut
+	db			n_length+20,	n_cut
 	db			n_length+4,	oct_3+E_
 	db			n_length+8,	n_cut
 	db			n_length+2,	oct_3+G_
@@ -315,11 +304,9 @@ Music_TitleScreen_PUL2:
 	db			n_length+3,	oct_3+F_
 	db			n_length+1,	n_cut
 	db			n_length+4,	oct_3+E_
-	db			n_length+22,	n_cut
-	db			n_length+10,	n_cut
+	db			n_length+32,	n_cut
 	db			n_length+3,	oct_3+G_
-	db			n_length+11,	n_cut
-	db			n_length+10,	n_cut
+	db			n_length+21,	n_cut
 	db			n_length+4,	oct_3+E_
 	db			n_length+8,	n_cut
 	db			n_length+3,	oct_3+G_
@@ -331,8 +318,7 @@ Music_TitleScreen_PUL2:
 	db			n_length+3,	oct_3+F_
 	db			n_length+1,	n_cut
 	db			n_length+3,	oct_3+E_
-	db			n_length+23,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+27,	n_cut
 	db			n_length+1,	oct_3+G_
 	db			n_length+5,	n_cut
 	db			n_length+2,	oct_3+G_
@@ -346,8 +332,7 @@ Music_TitleScreen_PUL2:
 	db			n_length+4,	oct_3+B_
 	db			n_length+2,	n_cut
 	db					oct_3+G_
-	db			n_length+6,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+10,	n_cut
 	db			n_length+1,	oct_3+G_
 	db			n_length+5,	n_cut
 	db			n_length+1,	oct_3+G_
@@ -388,8 +373,7 @@ Music_TitleScreen_PUL2:
 	db			n_length+3,	oct_3+G_
 	db			n_length+1,	n_cut
 	db			n_length+4,	oct_3+E_
-	db			n_length+22,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+26,	n_cut
 	db	n_multi+2,	n_length+2,	oct_3+G_
 	db			n_length+10,	n_cut
 	db			n_length+4,	oct_3+G_
@@ -403,8 +387,7 @@ Music_TitleScreen_PUL2:
 	db			n_length+8,	oct_3+B_
 	db			n_length+4,	n_cut
 	db					oct_3+D_
-	db			n_length+12,	n_cut
-	db			n_length+8,	n_cut
+	db			n_length+20,	n_cut
 	db			n_length+2,	oct_3+G_
 	db			n_length+10,	n_cut
 	db			n_length+2,	oct_3+G_
@@ -483,8 +466,7 @@ Music_TitleScreen_PUL2:
 	db			n_length+6,	oct_3+A_
 	db					n_cut
 	db			n_length+2,	oct_3+A_
-	db					n_cut
-	db			n_length+20,	n_cut
+	db			n_length+22,	n_cut
 	db			n_length+18,	oct_3+A_
 	db			n_length+10,	n_cut
 	db			n_length+2,	oct_4+D#
@@ -513,8 +495,7 @@ Music_TitleScreen_PUL2:
 	db			n_length+8,	oct_4+C_
 	db			n_length+4,	n_cut
 	db					oct_3+G_
-	db			n_length+12,	n_cut
-	db			n_length+8,	n_cut
+	db			n_length+20,	n_cut
 	db			n_length+3,	oct_3+G_
 	db			n_length+9,	n_cut
 	db			n_length+3,	oct_3+G_
@@ -555,8 +536,15 @@ Music_TitleScreen_PUL2:
 	db			n_length+6,	oct_3+G_
 	db			n_length+2,	n_cut
 	db			n_length+8,	oct_3+E_
-	db	n_multi+4,	n_length+22,	n_cut
-	db	n_multi+2,	n_length+20,	n_cut
+	db	n_multi+4,	n_length+32,	n_cut
+	db	n_multi+2,	n_length+3,	oct_3+C_
+	db			n_length+21,	n_cut
+	db			n_length+4,	oct_2+A#
+	db			n_length+20,	n_cut
+	db			n_length+4,	oct_2+G#
+	db			n_length+20,	n_cut
+	db			n_length+3,	oct_2+G_
+	db			n_length+21,	n_cut
 	db			n_length+3,	oct_3+C_
 	db			n_length+21,	n_cut
 	db			n_length+4,	oct_2+A#
@@ -564,17 +552,7 @@ Music_TitleScreen_PUL2:
 	db			n_length+4,	oct_2+G#
 	db			n_length+20,	n_cut
 	db			n_length+3,	oct_2+G_
-	db			n_length+1,	n_cut
-	db			n_length+20,	n_cut
-	db			n_length+3,	oct_3+C_
 	db			n_length+21,	n_cut
-	db			n_length+4,	oct_2+A#
-	db			n_length+20,	n_cut
-	db			n_length+4,	oct_2+G#
-	db			n_length+20,	n_cut
-	db			n_length+3,	oct_2+G_
-	db			n_length+1,	n_cut
-	db			n_length+20,	n_cut
 	db			n_length+3,	oct_3+C_
 	db			n_length+21,	n_cut
 	db			n_length+4,	oct_2+A#
@@ -583,7 +561,7 @@ Music_TitleScreen_PUL2:
 	db			n_length+24,	n_cut
 	db			n_length+4,	oct_2+G_
 	db	n_multi+4,	n_length+22,	n_cut
-	db	n_multi+4,	n_length+16,	n_cut
+	db			n_length+16,	n_cut
 	db	sound_ret
 
 Music_TitleScreen_TRI:
@@ -638,8 +616,7 @@ Music_TitleScreen_TRI:
 	db			n_length+3,	oct_4+C_
 	db			n_length+1,	n_cut
 	db			n_length+4,	oct_4+C_
-	db			n_length+22,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+26,	n_cut
 	db	n_multi+5,	n_length+1,	oct_4+G_
 	db	n_multi+3,			n_cut
 	db	n_multi+4,	n_length+2,	oct_4+A_
@@ -654,8 +631,7 @@ Music_TitleScreen_TRI:
 	db	n_multi+4,	n_length+3,	oct_5+D#
 	db			n_length+7,	n_cut
 	db			n_length+10,	oct_5+D_
-	db			n_length+4,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+8,	n_cut
 	db	n_multi+5,	n_length+1,	oct_4+G_
 	db	n_multi+3,			n_cut
 	db	n_multi+4,	n_length+2,	oct_4+A_
@@ -703,8 +679,7 @@ Music_TitleScreen_TRI:
 	db	n_multi+4,	n_length+3,	oct_4+A#
 	db			n_length+1,	n_cut
 	db			n_length+3,	oct_5+C_
-	db			n_length+23,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+27,	n_cut
 	db	n_multi+5,	n_length+1,	oct_4+G_
 	db	n_multi+3,			n_cut
 	db	n_multi+4,	n_length+2,	oct_4+A_
@@ -719,8 +694,7 @@ Music_TitleScreen_TRI:
 	db	n_multi+4,	n_length+3,	oct_5+D#
 	db			n_length+7,	n_cut
 	db			n_length+10,	oct_5+D_
-	db			n_length+4,	n_cut
-	db					n_cut
+	db			n_length+8,	n_cut
 	db	n_multi+5,	n_length+1,	oct_4+G_
 	db	n_multi+3,			n_cut
 	db	n_multi+4,	n_length+2,	oct_4+A_
@@ -810,8 +784,7 @@ Music_TitleScreen_TRI:
 	db	n_multi+5,	n_length+1,	oct_5+C_
 	db	n_multi+3,			n_cut
 	db	n_multi+4,	n_length+4,	oct_5+G_
-	db			n_length+2,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+6,	n_cut
 	db	n_multi+5,	n_length+1,	oct_5+C_
 	db	n_multi+3,			n_cut
 	db	n_multi+4,	n_length+4,	oct_5+F_
@@ -819,8 +792,7 @@ Music_TitleScreen_TRI:
 	db	n_multi+5,	n_length+1,	oct_5+C_
 	db	n_multi+3,			n_cut
 	db	n_multi+4,	n_length+4,	oct_5+D#
-	db			n_length+2,	n_cut
-	db			n_length+4,	n_cut
+	db			n_length+6,	n_cut
 	db			n_length+2,	oct_4+G_
 	db			n_length+4,	oct_4+A#
 	db			n_length+1,	oct_5+C_
@@ -842,8 +814,7 @@ Music_TitleScreen_TRI:
 	db			n_length+4,	oct_5+C_
 	db					n_cut
 	db			n_length+6,	oct_5+C_
-	db			n_length+10,	n_cut
-	db			n_length+8,	n_cut
+	db			n_length+18,	n_cut
 	db			n_length+3,	oct_5+A#
 	db			n_length+9,	n_cut
 	db			n_length+4,	oct_5+A#
@@ -867,8 +838,7 @@ Music_TitleScreen_TRI:
 	db	n_multi+4,	n_length+3,	oct_5+D#
 	db			n_length+7,	n_cut
 	db			n_length+10,	oct_5+D_
-	db			n_length+4,	n_cut
-	db					n_cut
+	db			n_length+8,	n_cut
 	db	n_multi+5,	n_length+1,	oct_4+G_
 	db	n_multi+3,			n_cut
 	db	n_multi+4,	n_length+2,	oct_4+A_
@@ -1045,17 +1015,14 @@ Music_TitleScreen_NSE:
 	db			n_length+2,	$02
 	db	sound_loop_break
 	db	n_multi+4,	n_length+6,	$02
-	db			n_length+4,	$02
+	db	sound_loop+2
+	db	n_multi+4,	n_length+4,	$02
 	db			n_length+2,	$04
 	db					$02
 	db					$02
 	db					$02
-	db			n_length+4,	$02
-	db			n_length+2,	$04
-	db					$02
-	db					$02
-	db					$02
-	db					$02
+	db	sound_loop_break
+	db	n_multi+4,	n_length+2,	$02
 	db					$02
 	db					$02
 	db			n_length+4,	$02
@@ -1218,11 +1185,9 @@ Music_TitleScreen_NSE:
 
 Music_TitleScreen_DPCM:
 	db	sound_main_loop_set
-	db	n_multi+4,	n_length+8,	n_cut
-	db			n_length+10,	n_cut
+	db	n_multi+4,	n_length+18,	n_cut
 	db			n_length+3,	oct_2+C_
-	db			n_length+11,	n_cut
-	db			n_length+10,	n_cut
+	db			n_length+21,	n_cut
 	db			n_length+3,	oct_2+C_
 	db			n_length+9,	n_cut
 	db			n_length+2,	oct_2+D#
@@ -1234,11 +1199,9 @@ Music_TitleScreen_DPCM:
 	db			n_length+3,	oct_2+G_
 	db			n_length+1,	n_cut
 	db			n_length+4,	oct_2+C_
-	db			n_length+22,	n_cut
-	db			n_length+10,	n_cut
+	db			n_length+32,	n_cut
 	db			n_length+3,	oct_2+C_
-	db			n_length+11,	n_cut
-	db			n_length+10,	n_cut
+	db			n_length+21,	n_cut
 	db			n_length+3,	oct_2+C_
 	db			n_length+9,	n_cut
 	db			n_length+3,	oct_2+D#

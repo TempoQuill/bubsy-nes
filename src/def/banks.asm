@@ -6,18 +6,20 @@ RAM_Scratch:	.dsb 1
 PRG_Start0:	.dsb 1
 PRG_Start1:	.dsb 1
 PRG_Start2:	.dsb 1
+.ende
+
+PRG_Home = $ff
+
+PRG_DPCM = $ff - 17
+
+.enum PRG_DPCM - 4
 PRG_Music0: ; cross-bank
 PRG_Audio:	.dsb 1
 PRG_Music1: ; title/scenes
 PRG_SFX0:	.dsb 1
 PRG_Music2:	.dsb 1
 PRG_Music3:	.dsb 1
-PRG_Music4:	.dsb 1
 .ende
-
-PRG_Home = $ff
-
-PRG_DPCM = $ff - 17
 ; 
 .enum 0
 ; logos

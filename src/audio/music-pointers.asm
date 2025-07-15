@@ -6,11 +6,11 @@ MusicPointers:
 	audio_ptr	0,	PRG_Music1,	Music_DebugMode
 	audio_ptr	0,	PRG_Music0,	Music_Ending
 	audio_ptr	0,	PRG_Music1,	Music_Invisible
-	audio_ptr	0,	PRG_Music0,	Music_Invincible
+	audio_ptr	0,	PRG_Music1,	Music_Invincible
 	audio_ptr	0,	PRG_Music3,	Music_Goal
 	audio_ptr	0,	PRG_Music1,	Music_Slide
 	audio_ptr	0,	PRG_Music3,	Music_VillageMain
-	audio_ptr	0,	PRG_Music4,	Music_VillageBoss
+	audio_ptr	0,	PRG_Music0,	Music_VillageBoss
 	audio_ptr	0,	PRG_Music2,	Music_Cave
 	audio_ptr	0,	PRG_Music3,	Music_FairMain
 	audio_ptr	0,	PRG_Music3,	Music_FairBoss
