@@ -67,7 +67,7 @@ PlayMusic:
 	BEQ @None
 	JSR SetMainAudioBank
 	JSR _PlayMusic
-	JMP @Done
+	BEQ @Done
 @None:
 	JSR SetMainAudioBank
 	JSR _InitSound
