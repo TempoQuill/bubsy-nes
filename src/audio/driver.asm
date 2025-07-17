@@ -483,7 +483,8 @@ InitStaccato:
 	LDA #0
 	STA zCurrentChannelArea + CHANNEL_STACCATO
 	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
-	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
+	STA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
+	LDY zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	BMI @Cut
 	LDA zCurrentChannelArea + CHANNEL_LINEAR_RATIO
 	AND #$3e
@@ -515,19 +516,14 @@ InitStaccato:
 	LDA #0
 	STA zCurrentChannelArea + CHANNEL_STACCATO
 	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
-	RTS
-
 @Cut:
-	LDA #0
-	STA zCurrentVolumeLinear
 	RTS
 
 @Staccato:
-	TYA
-	LDY #$81
-	STY zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
-	STA zCurrentChannelArea + CHANNEL_STACCATO
-	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
+	LDA #$81
+	STA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
+	STY zCurrentChannelArea + CHANNEL_STACCATO
+	STY zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
 	RTS
 
 ApplyNoise:
