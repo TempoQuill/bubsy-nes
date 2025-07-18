@@ -125,7 +125,6 @@ NMI:
 	PHA
 	TXA
 	PHA
-	JSR AdvanceSound
 	JSR UpdateJoypad
 	LDA zNMIDelay
 	BEQ @InterruptDone

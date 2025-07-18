@@ -66,11 +66,7 @@ Start:
 	BCS @NoMusic
 	INC zMusicBank
 @NoMusic:
-	LDA #1
-	STA zNMIDelay
-@Hang:
-	LDA zNMIDelay ; decrements to 0 each NMI
-	BNE @Hang
+	JSR DelayFrame
 	JSR RunChapterFrame
 	LDA zChapterFramesLeft
 	BNE @NoMusic
