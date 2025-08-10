@@ -120,9 +120,9 @@
 .include "home.asm"
 
 ; CHR ROM
-	.dsb $1000 ; 0
+.incbin "chr/op-credits.chr" ; 4K
 	.dsb $1000 ; 1
-	.dsb $1000 ; 2
+.incbin "chr/title-logo.chr" ; 4K
 	.dsb $1000 ; 3
 	.dsb $1000 ; 4
 	.dsb $1000 ; 5

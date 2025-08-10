@@ -24,12 +24,11 @@ PRG_Music3:	.dsb 1
 .enum 0
 ; logos
 CHR_Accolade:		.dsb 2
-CHR_LicenseFont:	.dsb 2
 ; font
 CHR_Font:		.dsb 2
 ; title screen
 CHR_TitleScreenBG1:	.dsb 2
-CHR_TitleScreenBG2:	.dsb 2
+CHR_TitleScreenBubsy:	.dsb 22
 CHR_TitleScreenOBJ1:	.dsb 2
 CHR_TitleScreenOBJ2:	.dsb 2
 ; etc.

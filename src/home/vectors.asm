@@ -44,7 +44,7 @@ RESET:
 	DEX ; CHR_TitleScreenOBJ1
 	STX MMC5_CHRBankSwitch4
 	STX zCHRWindow1
-	DEX
+	LDX #0
 	TXA
 	; init RAM
 @Loop:
@@ -104,18 +104,6 @@ RESET:
 	LDA #0
 	STA MMC5_FillModeTile
 	STA MMC5_FillModeColor
-	TAX
-@InitLoop:
-	DEX
-	STA $0, X
-	STA $100, X
-	STA $200, X
-	STA $300, X
-	STA $400, X
-	STA $500, X
-	STA $600, X
-	STA $700, X
-	BNE @InitLoop
 	JMP Start
 
 NMI:

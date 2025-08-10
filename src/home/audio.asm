@@ -13,10 +13,10 @@ InitSound:
 	JSR _InitSound
 	PLA
 	STA zPRGWindow2
-	STA MMC5_PRGBankSwitch2
+	STA MMC5_PRGBankSwitch3
 	PLA
 	STA zPRGWindow1
-	STA MMC5_PRGBankSwitch3
+	STA MMC5_PRGBankSwitch2
 	PLA
 	TAX
 	PLA
@@ -40,10 +40,10 @@ AdvanceSound:
 	JSR _AdvanceSound
 	PLA
 	STA zPRGWindow2
-	STA MMC5_PRGBankSwitch2
+	STA MMC5_PRGBankSwitch3
 	PLA
 	STA zPRGWindow1
-	STA MMC5_PRGBankSwitch3
+	STA MMC5_PRGBankSwitch2
 	PLA
 	TAX
 	PLA
@@ -74,10 +74,10 @@ PlayMusic:
 @Done:
 	PLA
 	STA zPRGWindow2
-	STA MMC5_PRGBankSwitch2
+	STA MMC5_PRGBankSwitch3
 	PLA
 	STA zPRGWindow1
-	STA MMC5_PRGBankSwitch3
+	STA MMC5_PRGBankSwitch2
 	PLA
 	TAX
 	PLA
@@ -101,10 +101,10 @@ PlaySFX:
 	JSR _PlaySFX
 	PLA
 	STA zPRGWindow2
-	STA MMC5_PRGBankSwitch2
+	STA MMC5_PRGBankSwitch3
 	PLA
 	STA zPRGWindow1
-	STA MMC5_PRGBankSwitch3
+	STA MMC5_PRGBankSwitch2
 	PLA
 	TAX
 	PLA
