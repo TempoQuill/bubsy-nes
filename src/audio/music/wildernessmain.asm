@@ -6,220 +6,34 @@ Music_WildernessMain:
 	dw Music_WildernessMain_DPCM
 
 Music_WildernessMain_PUL1:
-	db	instrument+i_banjo
+	db	instrument+i_harmonica_s
+	db	sound_loop+8
+	db	n_multi+6,	n_length+32,	n_cut
+	db	sound_loop_break
 	db	n_multi+6,	n_length+28,	n_cut
-	db			n_length+4,	oct_2+G_
-	db	sound_loop+2
-	db	n_multi+6,	n_length+2,	oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db	sound_loop_break
-	db	n_multi+6,	n_length+2,	oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db					oct_2+F_
-	db					oct_3+F_
-	db					oct_3+A_
-	db					oct_3+F_
-	db					oct_2+A_
-	db					oct_3+F_
-	db					oct_3+A_
-	db					oct_3+F_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db	sound_loop+2
-	db	n_multi+6,	n_length+2,	oct_2+G_
-	db					oct_3+D_
-	db					oct_3+G_
-	db					oct_3+D_
-	db	sound_loop_break
-	db	n_multi+6,	n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+D_
-	db					oct_3+G_
-	db					oct_2+G_
-	db					oct_3+D_
-	db					oct_2+B_
-	db					oct_3+E_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db	sound_loop+2
-	db	n_multi+6,	n_length+2,	oct_2+F_
-	db					oct_3+F_
-	db					oct_3+A_
-	db					oct_3+F_
-	db					oct_2+A_
-	db					oct_3+F_
-	db					oct_3+A_
-	db					oct_3+F_
-	db	sound_loop_break
-	db	n_multi+6,	n_length+4,	oct_3+C_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+D_
-	db					oct_3+G_
-	db					oct_3+D_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+D_
-	db					oct_3+G_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_2+A_
-	db					oct_3+E_
-	db					oct_2+B_
-	db					oct_3+F_
-	db	sound_loop+2
-	db	n_multi+6,	n_length+2,	oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db	sound_loop_break
-	db	sound_loop+2
-	db	n_multi+6,	n_length+2,	oct_2+F_
-	db					oct_3+F_
-	db					oct_3+A_
-	db					oct_3+F_
-	db					oct_2+A_
-	db					oct_3+F_
-	db					oct_3+A_
-	db					oct_3+F_
-	db	sound_loop_break
-	db	n_multi+6,	n_length+2,	oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db	sound_loop+2
-	db	n_multi+6,	n_length+2,	oct_2+G_
-	db					oct_3+D_
-	db					oct_3+G_
-	db					oct_3+D_
-	db	sound_loop_break
-	db	n_multi+6,	n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+D_
-	db					oct_3+G_
-	db					oct_2+G_
-	db					oct_3+D_
-	db					oct_2+B_
-	db					oct_3+E_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db	sound_loop+2
-	db	n_multi+6,	n_length+2,	oct_2+F_
-	db					oct_3+F_
-	db					oct_3+A_
-	db					oct_3+F_
-	db					oct_2+A_
-	db					oct_3+F_
-	db					oct_3+A_
-	db					oct_3+F_
-	db	sound_loop_break
-	db	n_multi+6,	n_length+4,	oct_3+C_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+D_
-	db					oct_3+G_
-	db					oct_3+D_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+D_
-	db					oct_3+G_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_3+G_
-	db					oct_3+E_
-	db			n_length+4,	oct_2+G_
-	db			n_length+2,	oct_3+E_
-	db					oct_3+G_
-	db					oct_3+C_
-	db					oct_3+E_
-	db					oct_2+G_
-	db					oct_3+E_
-	db					oct_2+A_
-	db					oct_3+E_
-	db					oct_2+B_
-	db					oct_3+F_
+	db			n_length+4,	oct_4+C_
+	db			n_length+24,	oct_4+E_
+	db			n_length+4,	oct_4+D_
+	db					oct_4+C_
+	db			n_length+16,	oct_4+D_
+	db					oct_4+C_
+	db			n_length+24,	oct_4+E_
+	db			n_length+4,	oct_4+D_
+	db					oct_4+C_
+	db			n_length+16,	oct_4+D_
+	db					oct_3+B_
+	db			n_length+24,	oct_4+E_
+	db			n_length+6,	oct_4+D_
+	db			n_length+2,	oct_4+C_
+	db			n_length+16,	oct_4+G_
+	db					oct_4+F_
+	db					oct_4+E_
+	db					oct_4+D_
+	db			n_length+20,	oct_4+C_
+	db			n_length+12,	n_cut
 	db	sound_main_loop_set
 	db	sound_loop+2
+	db	instrument+i_banjo
 	db	n_multi+6,	n_length+2,	oct_3+C_
 	db					oct_3+E_
 	db					oct_3+G_
@@ -751,31 +565,218 @@ Music_WildernessMain_PUL1:
 	db	sound_ret
 
 Music_WildernessMain_PUL2:
-	db	instrument+i_harmonica_s
-	db	sound_loop+8
-	db	n_multi+6,	n_length+32,	n_cut
-	db	sound_loop_break
+	db	instrument+i_banjo
 	db	n_multi+6,	n_length+28,	n_cut
-	db			n_length+4,	oct_4+C_
-	db			n_length+24,	oct_4+E_
-	db			n_length+4,	oct_4+D_
-	db					oct_4+C_
-	db			n_length+16,	oct_4+D_
-	db					oct_4+C_
-	db			n_length+24,	oct_4+E_
-	db			n_length+4,	oct_4+D_
-	db					oct_4+C_
-	db			n_length+16,	oct_4+D_
-	db					oct_3+B_
-	db			n_length+24,	oct_4+E_
-	db			n_length+6,	oct_4+D_
-	db			n_length+2,	oct_4+C_
-	db			n_length+16,	oct_4+G_
-	db					oct_4+F_
-	db					oct_4+E_
-	db					oct_4+D_
-	db			n_length+20,	oct_4+C_
-	db			n_length+12,	n_cut
+	db			n_length+4,	oct_2+G_
+	db	sound_loop+2
+	db	n_multi+6,	n_length+2,	oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db	sound_loop_break
+	db	n_multi+6,	n_length+2,	oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db					oct_2+F_
+	db					oct_3+F_
+	db					oct_3+A_
+	db					oct_3+F_
+	db					oct_2+A_
+	db					oct_3+F_
+	db					oct_3+A_
+	db					oct_3+F_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db	sound_loop+2
+	db	n_multi+6,	n_length+2,	oct_2+G_
+	db					oct_3+D_
+	db					oct_3+G_
+	db					oct_3+D_
+	db	sound_loop_break
+	db	n_multi+6,	n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+D_
+	db					oct_3+G_
+	db					oct_2+G_
+	db					oct_3+D_
+	db					oct_2+B_
+	db					oct_3+E_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db	sound_loop+2
+	db	n_multi+6,	n_length+2,	oct_2+F_
+	db					oct_3+F_
+	db					oct_3+A_
+	db					oct_3+F_
+	db					oct_2+A_
+	db					oct_3+F_
+	db					oct_3+A_
+	db					oct_3+F_
+	db	sound_loop_break
+	db	n_multi+6,	n_length+4,	oct_3+C_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+D_
+	db					oct_3+G_
+	db					oct_3+D_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+D_
+	db					oct_3+G_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_2+A_
+	db					oct_3+E_
+	db					oct_2+B_
+	db					oct_3+F_
+	db	sound_loop+2
+	db	n_multi+6,	n_length+2,	oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db	sound_loop_break
+	db	sound_loop+2
+	db	n_multi+6,	n_length+2,	oct_2+F_
+	db					oct_3+F_
+	db					oct_3+A_
+	db					oct_3+F_
+	db					oct_2+A_
+	db					oct_3+F_
+	db					oct_3+A_
+	db					oct_3+F_
+	db	sound_loop_break
+	db	n_multi+6,	n_length+2,	oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db	sound_loop+2
+	db	n_multi+6,	n_length+2,	oct_2+G_
+	db					oct_3+D_
+	db					oct_3+G_
+	db					oct_3+D_
+	db	sound_loop_break
+	db	n_multi+6,	n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+D_
+	db					oct_3+G_
+	db					oct_2+G_
+	db					oct_3+D_
+	db					oct_2+B_
+	db					oct_3+E_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db	sound_loop+2
+	db	n_multi+6,	n_length+2,	oct_2+F_
+	db					oct_3+F_
+	db					oct_3+A_
+	db					oct_3+F_
+	db					oct_2+A_
+	db					oct_3+F_
+	db					oct_3+A_
+	db					oct_3+F_
+	db	sound_loop_break
+	db	n_multi+6,	n_length+4,	oct_3+C_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+D_
+	db					oct_3+G_
+	db					oct_3+D_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+D_
+	db					oct_3+G_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_3+G_
+	db					oct_3+E_
+	db			n_length+4,	oct_2+G_
+	db			n_length+2,	oct_3+E_
+	db					oct_3+G_
+	db					oct_3+C_
+	db					oct_3+E_
+	db					oct_2+G_
+	db					oct_3+E_
+	db					oct_2+A_
+	db					oct_3+E_
+	db					oct_2+B_
+	db					oct_3+F_
 	db	sound_main_loop_set
 	db	sound_loop+2
 	db	instrument+i_harmonica_l
