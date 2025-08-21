@@ -7,8 +7,18 @@ Start:
 	ORA #PPUCtrl_NMIEnabled
 	STA zPPUCtrlMirror
 	STA rCTRL
+	LDA #0
+	STA rMASK
+	STA zPPUMaskMirror
 	LDY #MUSIC_NONE
 	JSR PlayMusic
+	LDA #PRG_Start0
+	STA MMC5_PRGBankSwitch2
+	LDA #PRG_Start1
+	STA MMC5_PRGBankSwitch3
+	JMP InitLogos
+
+; cutoff
 	LDA #0
 	STA zMusicBank
 @Loop:

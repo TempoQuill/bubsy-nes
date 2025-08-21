@@ -318,25 +318,13 @@ UpdateChannel:
 	; if we read negative, execute full spread
 	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
 	BPL @Ch3_Rest ; else, skip ahead
+	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
+	BMI @Ch3_Cut
 	LDA zMusicChannelFlags ; mix channels
 	ORA zSFXChannelFlags
-@Ch3_Mix1:
-	BIT rMIX ; Open bus safeguard
-	BVS @Ch3_Mix1
-	TAX ; save for later
-	AND #$0b ; mute while updating
-	ORA rMIX
-	STA rMIX
 	; LSB's of pitch
 	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
 	STA rNR32
-@Ch3_Mix2:
-	BIT rMIX
-	BVS @Ch3_Mix2
-	TXA ; restore APU status
-	AND #$0f ; isolate PSG's
-	ORA rMIX
-	STA rMIX
 	; MSB's of pitch
 	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
 	AND #$07 ; isolate pitch / clear trigger
@@ -350,6 +338,13 @@ UpdateChannel:
 	; linear output length
 	LDA zCurrentVolumeLinear
 	STA rNR30
+	RTS
+
+@Ch3_Cut:
+	LDA #0
+	STA rNR30
+	STA rNR32
+	STA rNR33
 	RTS
 
 @Ch4:
@@ -438,12 +433,7 @@ ApplyTriangle:
 	LDA zCurrentChannelArea + CHANNEL_STACCATO
 	BNE @Staccato
 	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
-	BMI @Cut
-	LDA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
-	STA zCurrentVolumeLinear
-	RTS
-
-@Cut:
+	BPL @Send
 	LDA #0
 	STA zCurrentVolumeLinear
 	RTS
@@ -452,6 +442,7 @@ ApplyTriangle:
 	LDA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
 	BEQ @Mute
 	DEC zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
+@Send:
 	LDA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 @Mute:
 	STA zCurrentVolumeLinear
@@ -494,8 +485,7 @@ InitStaccato:
 	STA MMC5_Multiplier1
 	LDA zCurrentChannelArea + CHANNEL_NOTE_DURATION
 	STA MMC5_Multiplier2
-	LDA MMC5_Multiplier2
-	TAY
+	LDY MMC5_Multiplier2
 	LDA MMC5_Multiplier1
 	CPY #$20
 	BCS @Staccato
@@ -505,17 +495,11 @@ InitStaccato:
 	ROL zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
 	ASL A
 	ROL zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
-	LDA #0
-	STA zCurrentChannelArea + CHANNEL_STACCATO
-	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
 	RTS
 
 @Inf:
 	LDA #$81
 	STA zCurrentChannelArea + CHANNEL_RAW_LINEAR_OUTPUT
-	LDA #0
-	STA zCurrentChannelArea + CHANNEL_STACCATO
-	STA zCurrentChannelArea + CHANNEL_STACCATO_COUNTER
 @Cut:
 	RTS
 

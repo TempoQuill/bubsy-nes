@@ -6,8 +6,8 @@
 .endinl
 
 .base $8000
-	.dsb $2000 ; 0
-	.dsb $2000 ; 1
+.include "src/driver/intro.asm"
+.align $4000
 	.dsb $2000 ; 2
 	.dsb $2000 ; 3
 	.dsb $2000 ; 4

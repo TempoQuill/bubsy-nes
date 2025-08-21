@@ -1,6 +1,15 @@
 .enum $0000
 MMC5 = $05
 
+NT0 = $2000
+NT1 = $2400
+NT2 = $2800
+NT3 = $2c00
+
+PALS = $3f00
+PAL_B = $3f00
+PAL_O = $3f10
+
 MMC5_VMirror = %01000100
 MMC5_HMirror = %01010000
 MMC5_VFiller = %11110100
@@ -10,23 +19,32 @@ MMC5_SFiller = %11111100
 CHR_A12_INVERSION = $80
 
 ; enum PPUControl (bitfield) (width 1 byte)
-PPUCtrl_BaseAddress = $03
-PPUCtrl_Base2000 = $00
-PPUCtrl_Base2400 = $01
-PPUCtrl_Base2800 = $02
-PPUCtrl_Base2C00 = $03
-PPUCtrl_WriteHorizontal = $00
-PPUCtrl_WriteVertical = $04
-PPUCtrl_Sprite0000 = $00
-PPUCtrl_Sprite1000 = $08
-PPUCtrl_Background0000 = $00
-PPUCtrl_Background1000 = $10
-PPUCtrl_SpriteSize8x8 = $00
-PPUCtrl_SpriteSize8x16 = $20
+PPUCtrl_NTMask = $03 ; nametable mask
+PPUCtrl_NT0 = $00 ; 2000
+PPUCtrl_NT1 = $01 ; 2400
+PPUCtrl_NT2 = $02 ; 2800
+PPUCtrl_NT3 = $03 ; 2c00
+PPUCtrl_WH = $00 ; write horizontal
+PPUCtrl_WV = $04 ; write vertical
+PPUCtrl_OBJ0 = $00
+PPUCtrl_OBJ1 = $08
+PPUCtrl_BG0 = $00
+PPUCtrl_BG1 = $10
+PPUCtrl_OBJSmall = $00
+PPUCtrl_OBJBig = $20
 PPUCtrl_NMIDisabled = $00
 PPUCtrl_NMIEnabled = $80
 
 PPUStatus_VBlankHit = $80
+
+PPUMask_Grey = $01
+PPUMask_BGEdge = $02 ; leftmost tile column
+PPUMask_OBJEdge = $04
+PPUMask_BG = $08
+PPUMask_OBJ = $10
+PPUMask_Red = $20
+PPUMask_Green = $40
+PPUMask_Blue = $80
 
 BATTERY_RAM      = 2
 IGNORE_MIRRORING = 8

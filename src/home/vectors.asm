@@ -8,7 +8,7 @@
 RESET:
 	LDA #3 ; all 8K switchable
 	STA MMC5_PRGMode
-	LDA #1 ; 4K mode (try not to use $5130)
+	LDA #2 ; 2K mode (may use $5130)
 	STA MMC5_CHRMode
 
 	; PRG RAM handshake
@@ -26,23 +26,27 @@ RESET:
 	; setup RAM
 	LDA #RAM_Scratch
 	STA zRAMBank
-	; upper CHR bits go unused
 	STA MMC5_CHRBankSwitchUpper
 
 	; MMC5 Pulse channels
 	LDA #$0f
 	STA MMC5_MIXER
 
-	; select the first three CHR banks
-	; bank 0 is a mirror of 3
-	LDX #CHR_TitleScreenBG1
+	; select the logo banks
+	LDX #CHR_Accolade + 1
 	STX MMC5_CHRBankSwitch12
+	DEX
+	STX MMC5_CHRBankSwitch10
 	STX zCHRWindow3
-	DEX ; CHR_TitleScreenOBJ2
+	INX
 	STX MMC5_CHRBankSwitch8
+	DEX
+	STX MMC5_CHRBankSwitch6
 	STX zCHRWindow2
-	DEX ; CHR_TitleScreenOBJ1
+	INX
 	STX MMC5_CHRBankSwitch4
+	DEX
+	STX MMC5_CHRBankSwitch2
 	STX zCHRWindow1
 	LDX #0
 	TXA
@@ -58,10 +62,10 @@ RESET:
 	STA $500, X
 	STA $600, X
 	STA $700, X
-	STA $5c00, X ; mmc5 RAM
-	STA $5d00, X ; mmc5 RAM
-	STA $5e00, X ; mmc5 RAM
-	STA $5f00, X ; mmc5 RAM
+	STA $5c00, X ; VSplit canvas
+	STA $5d00, X ; VSplit canvas
+	STA $5e00, X ; VSplit canvas
+	STA $5f00, X ; VSplit canvas
 	BNE @Loop
 
 	; select the starter PRG banks
@@ -81,10 +85,12 @@ RESET:
 
 	SEI
 	CLD
-; Nametable base 0, Horizontal writing, OBJ base 0, BG base 0, 8x8 OBJs, no NMI
-	LDA #0
+; Nametable 0, Horizontal writing, OBJ 1, BG base 0, 8x8 OBJs, no NMI
+	LDA #PPUCtrl_OBJ1 | PPUCtrl_BG0 | PPUCtrl_NMIDisabled
 	STA rCTRL
+	STA rMASK
 	STA zPPUCtrlMirror
+	STA zPPUMaskMirror
 	LDX #<iStackTop ; Reset stack pointer
 	TXS
 

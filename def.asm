@@ -4,3 +4,5 @@
 .include "src/def/hardware.asm"
 .include "src/def/music.asm"
 .include "src/def/sfx.asm"
+.include "src/def/gameplay.asm"
+.include "src/def/intro.asm"

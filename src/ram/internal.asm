@@ -45,6 +45,18 @@ zLocalSong:		.dsb 1
 zChapterFramesLeft:	.dsb 1
 zChapterSFXPointer:	.dsb 2
 zChapterSFXOffset:	.dsb 1
+
+zGameplayMode:	.dsb 1
+
+zPPUStringPointer:	.dsb 2
+zPPUStringIndex:	.dsb 1
+zIntroScratchPointer:	.dsb 2
+zIntroScriptPointer:	.dsb 2
+zIntroScriptOffset:	.dsb 1
+zInputLock:		.dsb 1
+zIntroBubsyBank:	.dsb 1
+zTitleScroll:		.dsb 2
+
 .ende
 
 iStack = $100
@@ -67,3 +79,10 @@ iChannel08:	.dsb CHANNEL_STRUCTURE
 iChannel09:	.dsb CHANNEL_STRUCTURE
 iChannel10:	.dsb CHANNEL_STRUCTURE
 .ende
+
+.enum iChannel01 + (CHANNEL_STRUCTURE * 10)
+iStringBuffer:	.dsb $100
+iPPUBuffer:
+
+.ende
+
