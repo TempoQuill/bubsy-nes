@@ -229,13 +229,6 @@ UpdateChannel:
 	RTS
 
 @Ch1_Set:
-	BIT rMIX ; make sure we don't read open bus!
-	BVS @Ch1_Set
-	LDA zMusicChannelFlags ; mix channels
-	ORA zSFXChannelFlags
-	AND #$0e ; mute while updating
-	ORA rMIX
-	STA rMIX
 	LDA #$10 ; init volume / duty
 	STA rNR10
 	LDA zCurrentSweep
@@ -280,13 +273,6 @@ UpdateChannel:
 	RTS
 
 @Ch2_Set:
-	BIT rMIX
-	BVS @Ch2_Set
-	LDA zMusicChannelFlags
-	ORA zSFXChannelFlags
-	AND #$0d
-	ORA rMIX
-	STA rMIX
 	LDA #$10
 	STA rNR20
 	LDA zCurrentSweep
@@ -352,13 +338,6 @@ UpdateChannel:
 	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
 	BPL @Ch4_Done ; else just get outta here
 @Ch4_Set:
-	BIT rMIX ; Open bus safeguard
-	BVS @Ch4_Set
-	LDA zMusicChannelFlags ; mix channels
-	ORA zSFXChannelFlags
-	AND #$07 ; mute during update
-	ORA rMIX
-	STA rMIX
 	; pitch / LFSR period
 	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH
 	STA rNR42
