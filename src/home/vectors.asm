@@ -112,18 +112,24 @@ RESET:
 	STA MMC5_FillModeColor
 	JMP Start
 
-NMI:
-	PHP
-	PHA
-	TYA
-	PHA
-	TXA
-	PHA
+NMI_Scenes:
+	JSR UpdatePPUFromBufferRLE
+	LDA #>iVirtualOAM
+	STA rOAMDMA
+	LDY zPPUCtrlMirror
+	LDA #0
+	LDX zTitleScroll
+	STY rCTRL
+	STA rSCROLL
+	STX rSCROLL
+	LDA zInputLock
+	BNE NMI_DelayScenes
 	JSR UpdateJoypad
+NMI_DelayScenes:
 	LDA zNMIDelay
-	BEQ @InterruptDone
+	BEQ NMI_InterruptDoneScenes
 	DEC zNMIDelay
-@InterruptDone:
+NMI_InterruptDoneScenes:
 	PLA
 	TAX
 	PLA
@@ -131,6 +137,87 @@ NMI:
 	PLA
 	PLP
 	RTI
+
+NMI_NoScroll:
+	JSR UpdatePPUFromBufferRLE
+	LDA #>iVirtualOAM
+	STA rOAMDMA
+	LDY zPPUCtrlMirror
+	LDA #0
+	LDX #0
+	STY rCTRL
+	STA rSCROLL
+	STX rSCROLL
+	LDA zInputLock
+	BNE NMI_DelayNoScroll
+	JSR UpdateJoypad
+NMI_DelayNoScroll:
+	LDA zNMIDelay
+	BEQ NMI_InterruptDoneNoScroll
+	DEC zNMIDelay
+NMI_InterruptDoneNoScroll:
+	PLA
+	TAX
+	PLA
+	TAY
+	PLA
+	PLP
+	RTI
+
+NMI:
+	PHP
+	PHA
+	TYA
+	PHA
+	TXA
+	PHA
+	JSR NMI_CHR
+	LDA zPPUMaskMirror
+	STA rMASK
+	LDA zNMIDelay
+	BEQ NMI_InterruptDone
+	LDA zGameplayMode
+	BEQ NMI_Scenes
+	CMP #GAMEPLAY_VICTORY
+	BCS NMI_NoScroll
+	LDA #>iVirtualOAM
+	STA rOAMDMA
+	LDY zPPUCtrlMirror
+;	LDA #0
+;	LDX #0
+	STY rCTRL
+;	STA rSCROLL
+;	STX rSCROLL
+	LDA zInputLock
+	BNE NMI_Delay
+	JSR UpdateJoypad
+NMI_Delay:
+	LDA zNMIDelay
+	BEQ NMI_InterruptDone
+	DEC zNMIDelay
+NMI_InterruptDone:
+	PLA
+	TAX
+	PLA
+	TAY
+	PLA
+	PLP
+	RTI
+
+NMI_CHR:
+	LDA zCHRWindow1
+	STA MMC5_CHRBankSwitch2
+	EOR #1
+	STA MMC5_CHRBankSwitch4
+	LDA zCHRWindow2
+	STA MMC5_CHRBankSwitch6
+	EOR #1
+	STA MMC5_CHRBankSwitch8
+	LDA zCHRWindow3
+	STA MMC5_CHRBankSwitch10
+	EOR #1
+	STA MMC5_CHRBankSwitch12
+	RTS
 
 IRQ:
 	RTI

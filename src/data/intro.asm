@@ -159,16 +159,16 @@ AccoladePresents:
 	db $02,$04,$08,$0c,$10,$14,$18,$00,$1e,$23,$26,$2b,$30,$00
 	db $c3,$3a,$3d,$00,$41,$46,$4b,$4f,$53,$56,$09,$5c,$5f,$62
 +d
-	db $29, $a1, +e - +f
+	db $29, $a1, +f - +e
 +e
 	db $03,$05,$09,$0d,$11,$15,$19,$1b,$1f,$24,$27,$2c,$31,$33,$37
 	db $3b,$3e,$3f,$42,$47,$00,$50,$54,$57,$59,$5d,$60,$64,$67,$6b
 +f
-	db $2a, $08, +g - +h
+	db $2a, $08, +h - +g
 +g
 	db $1c,$20,$1c,$28,$2d,$32,$34,$38,$2d,$32,$40,$44,$48,$4c,$34,$38
 +h
-	db $2b, $d0, +i - +j
+	db $2b, $d0, +j - +i
 +i
 	db $40, $50, $50, $50, $50, $50, $50, $50, $05, $05, $05
 	db $05, $05, $05, $05, $05, $00, $00, $0a, $0a, $0a, $0a
@@ -372,11 +372,11 @@ TitleScreenCopyright2:
 IntroScript:
 	db INTRO_MASK_OFF
 	db INTRO_TITLE_INIT
-;	db INTRO_LOGOS
-;	db INTRO_LOGO_PAL
+	db INTRO_LOGOS
+	db INTRO_LOGO_PAL
 
-;	db INTRO_SCROLL + 12
-;	db INTRO_MASK_ON
+	db INTRO_SCROLL + 12
+	db INTRO_MASK_ON
 
 	db INTRO_DELAY + 4
 	db INTRO_DELAY + 4
@@ -391,7 +391,7 @@ IntroScript:
 	db INTRO_DELAY + 4
 	db INTRO_DELAY + 4
 
-;	db INTRO_SCROLL + 12 + 30
+	db INTRO_SCROLL + 12 + 30
 
 	db INTRO_DELAY + 4
 	db INTRO_DELAY + 4
@@ -436,13 +436,13 @@ IntroScript:
 	db INTRO_DELAY + 4
 	db INTRO_DELAY + 4
 
-;	db INTRO_MASK_OFF
-;	db INTRO_TITLE_INIT
-;	db INTRO_BUBSY
-;	db INTRO_TITLE_PAL
+	db INTRO_MASK_OFF
+	db INTRO_TITLE_INIT
+	db INTRO_BUBSY
+	db INTRO_TITLE_PAL
 
-;	db INTRO_SCROLL + 47
-;	db INTRO_BUBSY_CHR
+	db INTRO_SCROLL + 47
+	db INTRO_BUBSY_CHR
 ;	db INTRO_MASK_ON
 
 ;	db INTRO_INPUT

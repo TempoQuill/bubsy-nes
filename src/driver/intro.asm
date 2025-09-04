@@ -87,7 +87,12 @@ ScriptByteTypes:
 
 Intro_SendToPPU:
 	BEQ @Skip
-	STA zPPUStringIndex
+	ASL A
+	TAX
+	LDA IntroPointers, X
+	STA zPPUStringPointer
+	LDA IntroPointers + 1, X
+	STA zPPUStringPointer + 1
 	TYA
 	CLC
 	ADC zIntroScriptPointer
