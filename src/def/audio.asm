@@ -59,7 +59,7 @@ sound_ret = $00
 ; instrument-allocated effects, pulses only
 ins_ret = $00
 ins_previbrato = $01	; frames before vibrato begins playing
-ins_vibrato = $02	; vibrato settings, both params 0-15 ($00 = flutter)
+ins_vibrato = $02	; vibrato settings, both params 0-15
 ins_staccato = $04	; pulses may use this like the triangle channel uses $c0-$df
 ins_detune = $08	; adds value to decoded pitch, $ff80-$007f (as 1 byte)
 ins_sweep = $10		; in-music pitch sweep

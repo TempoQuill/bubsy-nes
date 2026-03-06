@@ -14,7 +14,7 @@ NoisePercussion:
 	dw Noise_None
 	dw Noise_None
 	dw Noise_None
-	dw Noise_None
+	dw Noise_None ; n_cut
 
 Noise_None:
 	db	sound_ret

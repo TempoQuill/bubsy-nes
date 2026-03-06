@@ -39,8 +39,7 @@ _AdvanceSound:
 	STA zCurrentChannelPointer
 	LDA #>(iChannel01 - CHANNEL_STRUCTURE)
 	STA zCurrentChannelPointer + 1
-	LDA zMusicChannelFlags
-	ORA zSFXChannelFlags
+	LDA zSFXChannelFlags ; we look for sound effects first
 	STA zCurrentAudioScratchData
 	LDA #5
 	STA zCurrentAudioScratchData + 1
@@ -62,9 +61,8 @@ _AdvanceSound:
 	LDA zCurrentAudioScratchData + 1
 	BPL @NextChannel
 
-	; just in case
+	; just in case we haven't checked for music yet
 	LDA zMusicChannelFlags
-	ORA zSFXChannelFlags
 	STA zCurrentAudioScratchData
 	LDA #5
 	STA zCurrentAudioScratchData + 1
@@ -118,7 +116,7 @@ _AdvanceSound:
 	TYA
 	ADC zCurrentChannelArea + CHANNEL_NOTE_DURATION
 	STA zCurrentChannelArea + CHANNEL_NOTE_DURATION
-	BNE @DurDone
+	BNE @DurDone ; must be at least one frame long (breaks otherwise)
 	INC zCurrentChannelArea + CHANNEL_NOTE_DURATION
 @DurDone:
 	; trigger a full update
@@ -126,10 +124,7 @@ _AdvanceSound:
 	ORA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
 	STA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
 
-	JSR InitStaccato
-	; initialize counters / offset / volume
-	LDA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY
-	STA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY_COUNTER
+	JSR InitStaccato ; cover staccato for triangle channel
 
 @MidNote:
 	; apply channel properties
@@ -137,14 +132,15 @@ _AdvanceSound:
 	; now to check for sound effects
 	; first of all, are we in a sound effect channel?
 	LDX #$ff
-@ChanLoop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP ChannelsHi, X
-	BNE @ChanLoop
 	LDA zCurrentChannelPointer
-	CMP ChannelsLo, X
+	BEQ @SFX0
+@ChanLoop:
+	INX
+	SEC
+	SBC #CHANNEL_STRUCTURE
 	BNE @ChanLoop
+@SFX0:
+	INX
 	CPX #CHAN5
 	BCC @SkipPriority ; skip ahead if we are
 	; else, let's load up the channel offset
@@ -182,14 +178,13 @@ ChannelSetBufferOffsets:
 
 UpdateChannel:
 	LDX #$ff
-@Loop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP ChannelsHi, X
-	BNE @Loop
 	LDA zCurrentChannelPointer
-	CMP ChannelsLo, X
-	BNE @Loop
+	BEQ +
+-	INX
+	SEC
+	SBC #CHANNEL_STRUCTURE
+	BNE -
++	INX
 	TXA
 	ASL A
 	TAX
@@ -429,14 +424,13 @@ ApplyTriangle:
 
 InitStaccato:
 	LDX #$ff
-@Loop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP ChannelsHi, X
-	BNE @Loop
 	LDA zCurrentChannelPointer
-	CMP ChannelsLo, X
-	BNE @Loop
+	BEQ +
+-	INX
+	SEC
+	SBC #CHANNEL_STRUCTURE
+	BNE -
++	INX
 	CPX #CHAN2
 	BEQ @Tri
 	CPX #CHAN7
@@ -575,11 +569,7 @@ ApplyNoteEffects:
 	RTS
 @Start:
 ; pre-effect
-	LDA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
-	BMI @CheckCut
 	JSR GetRawPitch
-
-@CheckCut:
 	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	BMI @Cut
 	BEQ @Cut
@@ -737,28 +727,37 @@ VibratoCrestValues:
 
 InitNoteEffects:
 ; apply any effects listed if on the pulse 1/2 channels
+	LDX #$ff
+	LDA zCurrentChannelPointer
+	BEQ +
+-	INX
+	SEC
+	SBC #CHANNEL_STRUCTURE
+	BNE -
++	INX
 	; before we do anything, did we encounter a tie?
 	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
 	AND #$0f
-	CMP #n_tie
+	CMP #n_tie ; keep everything the way it was if we're tying
 	BNE @Chans
-	RTS ; keep everything the way it was if we're tying
+	CPX #CHAN3 ; except for drum offset
+	BEQ @OR
+	CPX #CHAN8
+	BNE @NoOR
+@OR:
+	LDA #0
+	STA zCurrentChannelArea + CHANNEL_INSTRUMENT_OFFSET
+@NoOR:
+	RTS
 @Chans:
+	; initialize counters / offset / volume
+	LDA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY
+	STA zCurrentChannelArea + CHANNEL_VIBRATO_DELAY_COUNTER
 	LDA #0 ; since we know we're not in a tie, clear the instrument offset
 	STA zCurrentChannelArea + CHANNEL_INSTRUMENT_OFFSET
 	; now, make sure we are on the appropriate channels
-	LDX #$ff
-@Loop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP ChannelsHi, X
-	BNE @Loop
-	LDA zCurrentChannelPointer
-	CMP ChannelsLo, X
-	BNE @Loop
 	CPX #CHAN5 ; which set are we on?
 	; in case we do go through, load up initialization parameters
-	LDA #0
 	LDY #CHANNEL_STRUCTURE - CHANNEL_VIBRATO_DELAY
 	BCC @SFX
 ; are we on the pulse channels?
@@ -890,14 +889,13 @@ ParseAudioData_Ret:
 	ORA zCurrentChannelArea + CHANNEL_POINTER
 	BNE ParseAudioData_Music
 	LDX #$ff
-@Loop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP ChannelsHi, X
-	BNE @Loop
 	LDA zCurrentChannelPointer
-	CMP ChannelsLo, X
-	BNE @Loop
+	BEQ +
+-	INX
+	SEC
+	SBC #CHANNEL_STRUCTURE
+	BNE -
++	INX
 	CPX #CHAN4
 	BEQ ParseAudioData_SetDPCM
 	BCC ParseAudioData_PSG
@@ -948,14 +946,13 @@ ParseSoundEffectData:
 ; all pointers in this table are behind by one to accommodate the NES's quirk
 ; of saving to the stack just before incrementing to the next instruction
 	LDX #$ff
-@Loop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP ChannelsHi, X
-	BNE @Loop
 	LDA zCurrentChannelPointer
-	CMP ChannelsLo, X
-	BNE @Loop
+	BEQ +
+-	INX
+	SEC
+	SBC #CHANNEL_STRUCTURE
+	BNE -
++	INX
 	TXA
 	ASL A
 	TAX
@@ -1169,14 +1166,13 @@ ParseSoundEffectData:
 
 DisectNote:
 	LDX #$ff
-@Loop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP ChannelsHi, X
-	BNE @Loop
 	LDA zCurrentChannelPointer
-	CMP ChannelsLo, X
-	BNE @Loop
+	BEQ +
+-	INX
+	SEC
+	SBC #CHANNEL_STRUCTURE
+	BNE -
++	INX
 	TXA
 	ASL A
 	TAX
@@ -1215,7 +1211,7 @@ DisectNote:
 	LDA #0
 	STA zCurrentPitchID
 @PulseNote:
-	JMP GetRawPitch
+	RTS
 
 @Tri:
 	LDA zCurrentChannelArea + CHANNEL_ENCODED_NOTE
@@ -1384,9 +1380,7 @@ SFX_Loop:
 ; we land here if we already established an optimization-based loop and just
 ; read another opt-loop byte in the contiguous data
 	; mark each instance of landing here
-	LDX zCurrentChannelArea + CHANNEL_LOOP_COUNTER
-	DEX
-	STX zCurrentChannelArea + CHANNEL_LOOP_COUNTER
+	DEC zCurrentChannelArea + CHANNEL_LOOP_COUNTER
 	LDA zCurrentChannelArea + CHANNEL_LOOP_POINTER
 	STA zCurrentChannelArea + CHANNEL_POINTER
 	LDA zCurrentChannelArea + CHANNEL_LOOP_POINTER + 1
@@ -1430,30 +1424,6 @@ GetRawPitch:
 	ORA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
 	STA zCurrentChannelArea + CHANNEL_RAW_PITCH + 1
 	RTS
-
-ChannelsLo:
-	dl iChannel01
-	dl iChannel02
-	dl iChannel03
-	dl iChannel04
-	dl iChannel05
-	dl iChannel06
-	dl iChannel07
-	dl iChannel08
-	dl iChannel09
-	dl iChannel10
-
-ChannelsHi:
-	dh iChannel01
-	dh iChannel02
-	dh iChannel03
-	dh iChannel04
-	dh iChannel05
-	dh iChannel06
-	dh iChannel07
-	dh iChannel08
-	dh iChannel09
-	dh iChannel10
 
 _PlayMusic:
 ; input: Y(song ID)
@@ -1602,6 +1572,10 @@ RetrieveChannel:
 	PHA
 	LDY #0
 REPT CHANNEL_STRUCTURE - 1
+	; According to Mesen2, the Music!noise channel will make dummy reads,
+	; but there isn't much that can be elegantly done about that, since the
+	; audio channel structure is 31 bytes, so the Music!noise channel will
+	; cross CPU pages. What air. Proper reads execute as intended anyway.
 	LDA (zCurrentChannelPointer), Y
 	STA zCurrentChannelArea, Y
 	INY
@@ -1633,14 +1607,13 @@ ChannelAddressZipper:
 
 ApplyChannel:
 	LDX #$ff
-@Loop:
-	LDA zCurrentChannelPointer + 1
-	INX
-	CMP ChannelsHi, X
-	BNE @Loop
 	LDA zCurrentChannelPointer
-	CMP ChannelsLo, X
-	BNE @Loop
+	BEQ +
+-	INX
+	SEC
+	SBC #CHANNEL_STRUCTURE
+	BNE -
++	INX
 	TXA
 	ASL A
 	TAX
